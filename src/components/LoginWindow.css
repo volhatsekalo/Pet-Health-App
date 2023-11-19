@@ -1,0 +1,27 @@
+.login {
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  width: 57vh;
+  height: 72vh;
+  justify-self: center;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+}
+
+.close_logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.close_logo:hover {
+  cursor: pointer;
+}
