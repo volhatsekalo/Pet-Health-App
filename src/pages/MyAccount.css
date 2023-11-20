@@ -1,0 +1,74 @@
+.myaccount__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 100px;
+}
+
+.myaccount {
+  width: 600px;
+  height: 500px;
+  /* border: 1px solid #ccc; */
+  border-radius: 10px;
+  /* background-color: #f9f9f9; */
+  background-color: antiquewhite;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+}
+
+.fl {
+  width: 100%;
+  display: flex;
+}
+
+.myaccount__avatar {
+  padding-left: 10vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.myaccount__avatar > input {
+  display: none;
+}
+
+.myaccount__avatar>img {
+  flex: 1;
+  border-radius: 70%;
+  width: 170px;
+  height: 170px;
+  object-fit: cover;
+  border: 2px solid #333;
+}
+
+.myaccount>h2 {
+  margin-bottom: 7vh;
+  text-align: center;
+}
+
+.myaccount__info {
+  flex: 1;
+  padding-left: 10vh;
+}
+
+.myaccount label {
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.myaccount__input {
+  width: 60%;
+  padding: 8px;
+  margin-bottom: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #333333;
+}
+
+.myaccount__inputvalue {
+  margin-bottom: 0.4rem;
+  color: #333333;
+}
+
+.myaccount button {
+  margin-top: 10px;
+}
