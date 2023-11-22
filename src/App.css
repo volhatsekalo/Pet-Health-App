@@ -27,4 +27,5 @@
 .btn.main {
   border: 2px solid var(--primary);
   background-color: var(--primary);
+  color: #fff;
 }

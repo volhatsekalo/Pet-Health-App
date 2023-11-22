@@ -12,7 +12,7 @@ import './Navbar.css';
 function Navbar() {
   const [isLModalOpen, setIsLModalOpen] = useState(false);
   const [isRModalOpen, setIsRModalOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   let navigate = useNavigate();
 
@@ -45,20 +45,20 @@ function Navbar() {
                 STRONA GŁÓWNA
               </Link>
             </li>
-            <li className='navbar__item'>
+            {/* <li className='navbar__item'>
               <Link
                 to='/kalendarz'
                 className='navbar__link'
               >
-                KALENDARZ
+                STATYSTYKI
               </Link>
-            </li>
+            </li> */}
             <li className='navbar__item'>
               <Link
-                to='/zywienie'
+                to='/zwierzeta'
                 className='navbar__link'
               >
-                ŻYWIENIE
+                ZWIERZĘTA
               </Link>
             </li>
             <li className='navbar__item'>
@@ -113,8 +113,8 @@ function Navbar() {
                   alt=""
                 />
               </li>
-              <LoginWindow isOpen={isLModalOpen} onRequestClose={() => setIsLModalOpen(false)} />
-              <RegistrationWindow isOpen={isRModalOpen} onRequestClose={() => setIsRModalOpen(false)} />
+              <LoginWindow isOpen={isLModalOpen} onRequestClose={() => setIsLModalOpen(false)} openRegistration={() => setIsRModalOpen(true)} />
+              <RegistrationWindow isOpen={isRModalOpen} onRequestClose={() => setIsRModalOpen(false)} openLogin={() => setIsLModalOpen(true)}/>
             </ul>
           )}
       </nav>

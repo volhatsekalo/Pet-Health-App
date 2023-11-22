@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Registration.css';
 
-function RegistrationForm() {
+function RegistrationForm({openLogin, onRequestClose}) {
   const [data, setData] = useState({
     username: '',
     email: '',
@@ -20,6 +20,11 @@ function RegistrationForm() {
     event.preventDefault();
     console.log('Dane z formularza:', data);
   };
+
+  const handleClick = () => {
+    onRequestClose();
+    openLogin();
+  }
 
   return (
     <div className='registration_form'>
@@ -71,8 +76,8 @@ function RegistrationForm() {
         </div>
         
         <hr></hr>
-        <p className="registration_form__login">
-          Masz już konto? <a href="/register">Zaloguj</a>
+        <p>
+          Masz już konto? <button className="registration_form__login" onClick={handleClick}>Zaloguj</button>
         </p>
       </form>
     </div>

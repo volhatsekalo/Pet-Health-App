@@ -73,3 +73,13 @@ hr {
     margin-bottom: 5px;
     width: 70%;
 }
+
+.registration_form__login {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+    text-decoration: underline; 
+    cursor: pointer;
+}

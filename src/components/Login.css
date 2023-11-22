@@ -16,7 +16,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width:96%;
+    width: 96%;
     /* height: 95%;
     width: 95%; */
 }
@@ -44,15 +44,9 @@
     transition: border-color 0.3s;
 }
 
-.login_form__input>a{
+.login_form__input>a {
     display: block;
     width: 80%;
-} 
-
-.login_form__login>a {
-    color: blue;
-    font-weight: 600;
-    text-decoration: none;
 }
 
 .login_form__button {
@@ -79,4 +73,14 @@ hr {
     background-color: #ccc;
     margin-bottom: 5px;
     width: 70%;
+}
+
+.login_form__register {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+    text-decoration: underline; 
+    cursor: pointer;
 }

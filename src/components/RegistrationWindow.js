@@ -7,7 +7,7 @@ import close from "../assets/close.png";
 
 Modal.setAppElement('#root');
 
-function RegistrationWindow({ isOpen, onRequestClose }) {
+function RegistrationWindow({ isOpen, onRequestClose, openLogin}) {
   return (
     <Modal
       isOpen={isOpen}
@@ -15,7 +15,7 @@ function RegistrationWindow({ isOpen, onRequestClose }) {
       contentLabel='Rejestracja'
       className='registration'
     >
-      <RegistrationForm />
+      <RegistrationForm openLogin={openLogin} onRequestClose={onRequestClose}/>
       <img
         className="close_logo"
         onClick={onRequestClose}
