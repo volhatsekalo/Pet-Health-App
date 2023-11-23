@@ -6,7 +6,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  /* font-family: 'PT Sans', sans-serif; */
+  font-family: 'Signica', sans-serif;
 }
 
 .btn {
@@ -24,16 +24,23 @@
   color: #fff;
 }
 
+.btn.border {
+  border: 2px solid var(--primary);
+  background-color: white;
+  color: var(--primary);
+}
+
 .btn.main {
   border: 2px solid var(--primary);
   background-color: var(--primary);
   color: #fff;
 }
 
-/* .body {
-  background: url('../public/images/doggy.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-attachment: fixed;
-} */
+.btn.small {
+  padding: 8px 18px;
+  font-size: 15px;
+}
+
+.app__container {
+  height: 85vh;
+}

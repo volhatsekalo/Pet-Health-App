@@ -1,22 +1,27 @@
 import React from 'react';
 import { useState } from 'react';
-import avatar from "../../assets/avatar.png";
+import { useNavigate } from "react-router-dom";
+import avatar2 from "../../assets/avatar2.png";
+import pencil from "../../assets/pencil.png";
 
 import './MyAccount.css';
 
 const MyAccount = () => {
-  const [image, setImage] = useState(avatar);
+  //    WYLOGUJ POWINNO PRZENOSIC NA STRONE GLOWNĄ I ZMIENIAĆ ZMIENNĄ ISLOGGEDIN
+  const [image, setImage] = useState(avatar2);
   const [data, setData] = useState({
     name: 'Jan Kowalski',
     email: 'jan@example.com',
   });
   const [edit, setEdit] = useState(false);
 
-  const handleImageChange = (event) => {
-    const selectedImage = event.target.files[0];
+  const handleImageChange = (e) => {
+    const selectedImage = e.target.files[0];
     const imageUrl = URL.createObjectURL(selectedImage);
     setImage(imageUrl);
   };
+
+  let navigate = useNavigate();
 
   const handleEdit = () => {
     setEdit(true);
@@ -38,14 +43,17 @@ const MyAccount = () => {
     <div className='myaccount__container'>
       <div className="myaccount">
         <h2>Moje Konto</h2>
-        <div className='fl'>
+        <div className='myaccount__data'>
           <div className='myaccount__avatar'>
             <img
               src={image}
               alt=""
             />
-            <label htmlFor="file-upload" className="btn">
-              Wybierz zdjęcie
+            <label htmlFor="file-upload" className="myaccount__avatar__change">
+              <img
+                src={pencil}
+                alt=""
+              />
             </label>
             <input id="file-upload" type="file" onChange={handleImageChange} />
           </div>
@@ -83,13 +91,38 @@ const MyAccount = () => {
               )}
             </div>
             {edit ? (
-              <button onClick={handleSave} className="btn main">Zapisz</button>
+              <button onClick={handleSave} className="dupa btn main small">ZAPISZ</button>
             ) : (
-              <button onClick={handleEdit} className="btn main">Edytuj</button>
+              <button onClick={handleEdit} className="dupa btn main small">EDYTUJ</button>
             )}
-            {/* <button onClick={handleLogout} className="btn main">Wyloguj</button> */}
           </div>
         </div>
+        <div className='myaccount_passwordchange'>
+          <div>
+            <label>
+              Hasło
+            </label>
+            <input
+              type="password"
+              name="password"
+              value="xd"
+              // onChange={handleInputChange}
+              className="myaccount__input"
+            />
+          </div>
+          <div>
+            <label>Nowe hasło</label>
+            <input
+              type="password"
+              name="password"
+              value="xd"
+              // onChange={handleInputChange}
+              className="myaccount__input"
+            />
+          </div>
+        </div>
+        <div className='myaccount__logout btn border' onClick={() => navigate("/")}>WYLOGUJ</div>
+        {/* <div className='myaccount__delete' onClick={() => navigate("/")}>Usuń konto</div> */}
       </div>
     </div>
   );

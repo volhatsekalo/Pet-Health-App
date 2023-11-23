@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <>
+    <div className='app__container'>
       <Router>
         <Navbar />
         <Routes>
@@ -20,7 +20,7 @@ function App() {
           <Route path='/zwierzeta' element={<Pets/>} />
         </Routes>
       </Router>
-    </>
+    </div>
   );
 }
 
