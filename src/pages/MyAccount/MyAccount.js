@@ -10,8 +10,8 @@ const MyAccount = () => {
   //    WYLOGUJ POWINNO PRZENOSIC NA STRONE GLOWNĄ I ZMIENIAĆ ZMIENNĄ ISLOGGEDIN
   const [image, setImage] = useState(avatar2);
   const [data, setData] = useState({
-    name: 'Jan Kowalski',
-    email: 'jan@example.com',
+    name: 'Olga Tiekało',
+    email: 'olgatiekalo@gmail.com',
   });
   const [edit, setEdit] = useState(false);
 
@@ -97,29 +97,26 @@ const MyAccount = () => {
             )}
           </div>
         </div>
-        <div className='myaccount_passwordchange'>
-          <div>
-            <label>
-              Hasło
-            </label>
+        <hr className='myaccount__data__border'></hr>
+        <div className='myaccount__passwordchange'>
+          <div className='myaccount__passwordchange__name'>Zmiana hasła</div>
+          <div className='myaccount__passwordchange__inputs'>
             <input
               type="password"
               name="password"
-              value="xd"
+              placeholder="Aktualne hasło"
+              // onChange={handleInputChange}
+              className="myaccount__input"
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Nowe hasło"
               // onChange={handleInputChange}
               className="myaccount__input"
             />
           </div>
-          <div>
-            <label>Nowe hasło</label>
-            <input
-              type="password"
-              name="password"
-              value="xd"
-              // onChange={handleInputChange}
-              className="myaccount__input"
-            />
-          </div>
+          <button className='btn main small'>ZMIEŃ HASŁO</button>
         </div>
         <div className='myaccount__logout btn border' onClick={() => navigate("/")}>WYLOGUJ</div>
         {/* <div className='myaccount__delete' onClick={() => navigate("/")}>Usuń konto</div> */}

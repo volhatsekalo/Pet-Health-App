@@ -4,13 +4,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   /* padding-top: 100px; */
 }
 
 .myaccount {
   position: relative;
   width: 600px;
-  height: 500px;
+  height: 530px;
   border: 1px solid #ccc;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.85);
@@ -35,8 +36,8 @@
 .myaccount__avatar>img {
   flex: 1;
   border-radius: 70%;
-  width: 150px;
-  height: 150px;
+  width: 130px;
+  height: 130px;
   object-fit: cover;
   border: 2px solid #333;
 }
@@ -52,9 +53,6 @@
   margin-left: 5vh;
   margin-right: 10vh;
   position: relative;
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
 }
 
 .myaccount label {
@@ -103,28 +101,51 @@
   text-align: center;
 }
 
-.myaccount_passwordchange {
-  margin-top: 5vh;
+.myaccount__passwordchange {
+  margin-top: 2vh;
   width: 100%;
-  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.myaccount__passwordchange .myaccount__input {
+  display: inline;
+  margin-left: 2vh;
+  margin-right: 2vh;
+}
+
+.myaccount__passwordchange > button {
+  display: block;
+  width: 30%;
+}
+
+.myaccount__passwordchange__name {
+  text-align: center;
+  margin-bottom: 2vh;
+}
+
+.myaccount__data__border {
+  margin-top: 2vh;
+  position: relative;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%); 
+  height: 1px;
+  background-color: grey;
+  width: 50%;
 }
 
-.myaccount_passwordchange > div {
-  display: inline;
+.myaccount__passwordchange__inputs {
+  display: flex;
+  /* justify-content: space-evenly; */ 
+  flex-direction: column;
 }
-
-/* .myaccount_passwordchange > div > label, .myaccount_passwordchange > div > input{
-  display: inline;
-} */
 
 @media screen and (max-width: 700px) {
 
   .myaccount {
-    width: auto;
     max-width: 90vw;
-    max-height: 80vh;
+    max-height: 100vh;
     /* height: auto; */
   }
 
@@ -132,20 +153,33 @@
     min-width: 10px;
     max-width: 130px;
     width: auto;
+    /* font-size: 1rem; */
   }
 
-  .myaccount_passwordchange > div > label, .myaccount_passwordchange > div > input{
-    display: block;
+  .myaccount__inputvalue {
+    font-size: 0.5rem;
   }
 
-  .myaccount_passwordchange {
-
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+  .myaccount__passwordchange {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .myaccount__info{
+  .myaccount__passwordchange > div .myaccount__input {
+    margin-right: 0vh;
+    margin-left: 0vh;
+  }
+
+  .myaccount__passwordchange > button {
+    height: 8vh;
+  }
+
+  .myaccount__passwordchange__inputs {
+    flex-direction: column;
+  }
+
+  .myaccount__info {
     padding-left: 0;
     margin-right: 6vh;
   }
