@@ -7,12 +7,14 @@ import logo from "../assets/petcare.png";
 import home from "../assets/home.png";
 import login from "../assets/login.png";
 import register from "../assets/register.png";
+import pet from "../assets/pet.png"
+import tasks from "../assets/tasks.png"
 import './Navbar.css';
 
 function Navbar() {
   const [isLModalOpen, setIsLModalOpen] = useState(false);
   const [isRModalOpen, setIsRModalOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   let navigate = useNavigate();
 
@@ -42,8 +44,14 @@ function Navbar() {
           <ul className={'navbar__list'}>
             <li className='navbar__item'>
               <Link to='/' className='navbar__link'>
-                STRONA GŁÓWNA
+                ZADANIA
               </Link>
+              <img
+                className="navbar__icon"
+                onClick={() => setIsLModalOpen(true)}
+                src={tasks}
+                alt=""
+              />
             </li>
             {/* <li className='navbar__item'>
               <Link
@@ -60,6 +68,12 @@ function Navbar() {
               >
                 ZWIERZĘTA
               </Link>
+              <img
+                className="navbar__icon"
+                onClick={() => setIsLModalOpen(true)}
+                src={pet}
+                alt=""
+              />
             </li>
             <li className='navbar__item'>
               <Link
