@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import RegistrationForm from '../Registration/Registration';
 import './RegistrationWindow.css';
-import close from "../assets/close.png";
+import close from "../../assets/close.png";
 
 
 Modal.setAppElement('#root');

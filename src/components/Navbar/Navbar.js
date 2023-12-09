@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import RegistrationWindow from '../RegistrationWindow/RegistrationWindow.js';
 import LoginWindow from '../LoginWindow/LoginWindow.js';
-import logo from "../assets/petcare.png";
-import home from "../assets/home.png";
-import login from "../assets/login.png";
-import register from "../assets/register.png";
-import pet from "../assets/pet.png"
-import tasks from "../assets/tasks.png"
+import logo from "../../assets/petcare.png";
+import home from "../../assets/home.png";
+import login from "../../assets/login.png";
+import register from "../../assets/register.png";
+import pet from "../../assets/pet.png"
+import tasks from "../../assets/tasks.png"
 import './Navbar.css';
 
 function Navbar() {
