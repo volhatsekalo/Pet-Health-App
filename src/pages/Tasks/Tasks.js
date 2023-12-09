@@ -6,11 +6,15 @@ import AppointmentCard from './AppointmentCard/AppointmentCard';
 import { nanoid } from 'nanoid';
 
 function Tasks() {
+  const sortedAppointments = appointments.sort((a, b) => {
+    return new Date(`${a.date}T${a.time}`) - new Date(`${b.date}T${b.time}`);
+  });
+
   return (
     <div className='tasks'>
       <div className='appointment_cards__container'>
         {
-          appointments.map((appointmentData) => 
+          sortedAppointments.map((appointmentData) => 
             <AppointmentCard 
               classes='appointment' 
               content={{

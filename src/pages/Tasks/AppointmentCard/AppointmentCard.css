@@ -1,5 +1,6 @@
 .card__appointment {
   display: flex;
+  position: relative;
   gap: 20px;
   width: 56%;
 }
@@ -27,4 +28,13 @@
   flex-grow: 1;
   justify-content: center;
   width: 10%;
+}
+
+.appointment__date {
+  position: absolute;
+  right: 1.4rem;
+}
+
+.appointment__date > p {
+  text-align: right;
 }
