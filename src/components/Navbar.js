@@ -36,14 +36,14 @@ function Navbar() {
       <nav className={color ? 'navbar navbar_bg' : 'navbar'}>
         <img
           className="navbar__logo"
-          onClick={() => navigate("/")}
+          onClick={() => {isLoggedIn ? navigate("/zadania") : navigate("/")}}
           src={logo}
           alt=""
         />
         {isLoggedIn ? (
           <ul className={'navbar__list'}>
             <li className='navbar__item'>
-              <Link to='/' className='navbar__link'>
+              <Link to='/zadania' className='navbar__link'>
                 ZADANIA
               </Link>
               <img

@@ -1,0 +1,30 @@
+.card__appointment {
+  display: flex;
+  gap: 20px;
+  width: 56%;
+}
+
+.card__appointment img {
+  width: 100px;
+  border-radius: 50%;
+}
+
+.card__appointment .text_container {
+  width: 240px;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.card__appointment h3 {
+  text-transform: capitalize;
+}
+
+.counter_container {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: center;
+  width: 10%;
+}
