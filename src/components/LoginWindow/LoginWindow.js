@@ -1,21 +1,21 @@
 import React from 'react';
 import Modal from 'react-modal';
-import RegistrationForm from './Registration';
-import './RegistrationWindow.css';
+import LoginForm from '../Login/Login.js';
+import './LoginWindow.css';
 import close from "../assets/close.png";
 
 
 Modal.setAppElement('#root');
 
-function RegistrationWindow({ isOpen, onRequestClose, openLogin}) {
+function LoginWindow({ isOpen, onRequestClose, openRegistration }) {
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      contentLabel='Rejestracja'
-      className='registration'
+      contentLabel='Login'
+      className='login'
     >
-      <RegistrationForm openLogin={openLogin} onRequestClose={onRequestClose}/>
+      <LoginForm onRequestClose={onRequestClose} openRegistration={openRegistration}/>
       <img
         className="close_logo"
         onClick={onRequestClose}
@@ -26,4 +26,4 @@ function RegistrationWindow({ isOpen, onRequestClose, openLogin}) {
   );
 }
 
-export default RegistrationWindow;
+export default LoginWindow;

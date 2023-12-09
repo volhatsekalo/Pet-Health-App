@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import RegistrationWindow from './RegistrationWindow.js';
-import LoginWindow from './LoginWindow.js';
+import RegistrationWindow from '../RegistrationWindow/RegistrationWindow.js';
+import LoginWindow from '../LoginWindow/LoginWindow.js';
 import logo from "../assets/petcare.png";
 import home from "../assets/home.png";
 import login from "../assets/login.png";
