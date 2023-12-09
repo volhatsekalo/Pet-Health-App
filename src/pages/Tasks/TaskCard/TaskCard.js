@@ -1,5 +1,5 @@
 import Card from '../../../components/Card/Card';
-import './AppointmentCard.css';
+import './TaskCard.css';
 
 const AppointmentCard = ({ classes, content }) => {
   const { name, type, date, time, description, image } = content;

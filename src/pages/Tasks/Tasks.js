@@ -1,12 +1,12 @@
 import React from 'react';
-import { appointments } from '../../dummy-data-home';
+import { tasks } from '../../dummy-data-home';
 import { pets } from '../../dummy-data-pets';
 import './Tasks.css';
-import AppointmentCard from './AppointmentCard/AppointmentCard';
+import TaskCard from './TaskCard/TaskCard';
 import { nanoid } from 'nanoid';
 
 function Tasks() {
-  const sortedAppointments = appointments.sort((a, b) => {
+  const sortedTasks = tasks.sort((a, b) => {
     return new Date(`${a.date}T${a.time}`) - new Date(`${b.date}T${b.time}`);
   });
 
@@ -14,8 +14,8 @@ function Tasks() {
     <div className='tasks'>
       <div className='appointment_cards__container'>
         {
-          sortedAppointments.map((appointmentData) => 
-            <AppointmentCard 
+          sortedTasks.map((appointmentData) => 
+            <TaskCard 
               classes='appointment' 
               content={{
                 ...appointmentData,

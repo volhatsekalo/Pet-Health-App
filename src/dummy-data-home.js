@@ -1,4 +1,4 @@
-export const appointments = [
+export const tasks = [
   {
     name: 'kot',
     type: 'szczepienie',
