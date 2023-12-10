@@ -66,6 +66,8 @@ function Filters() {
                     dateFormat="MMMM d, yyyy h:mm aa"
                     placeholderText="Wybierz datę i godzinę"
                 />
+                <p><b>Dodaj opis</b></p>
+                <input></input>
                 <button className='btn main'>Dodaj</button>
             </Card>
             <p><b>Filtry</b></p>
