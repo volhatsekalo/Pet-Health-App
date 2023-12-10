@@ -3,6 +3,7 @@ import { tasks } from '../../dummy-data-home';
 import { pets } from '../../dummy-data-pets';
 import './Tasks.css';
 import TaskCard from './TaskCard/TaskCard';
+import Filters from './Filters/Filters';
 import { nanoid } from 'nanoid';
 
 function Tasks() {
@@ -12,7 +13,9 @@ function Tasks() {
 
   return (
     <div className='tasks'>
+      <Filters/>
       <div className='appointment_cards__container'>
+        <b>Zaplanowane zadania</b>
         {
           sortedTasks.map((appointmentData) => 
             <TaskCard 

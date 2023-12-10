@@ -1,7 +1,8 @@
 import Card from '../../../components/Card/Card';
+import close from "../../../assets/close.png";
 import './TaskCard.css';
 
-const AppointmentCard = ({ classes, content }) => {
+const TaskCard = ({ classes, content }) => {
   const { name, type, date, time, description, image } = content;
 
   const today = new Date();
@@ -29,7 +30,7 @@ const AppointmentCard = ({ classes, content }) => {
       return "JUTRO";
     }
     else {
-      const options = { 
+      const options = {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
@@ -45,7 +46,8 @@ const AppointmentCard = ({ classes, content }) => {
 
   return (
     <Card classes={classes}>
-      <img src={image} alt={`${name}-appointment`} />
+      <img className="close_logo" src={close} alt="close" />
+      <img src={image} alt={`${name}-appointment`} className='photo' />
       <div className='text_container'>
         <h3>{name}</h3>
         <p><b>Typ: </b>{type}</p>
@@ -59,4 +61,4 @@ const AppointmentCard = ({ classes, content }) => {
   )
 }
 
-export default AppointmentCard;
+export default TaskCard;

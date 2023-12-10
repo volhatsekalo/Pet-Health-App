@@ -2,10 +2,10 @@
   display: flex;
   position: relative;
   gap: 20px;
-  width: 56%;
+  width: 70%;
 }
 
-.card__appointment img {
+.card__appointment .photo {
   width: 100px;
   border-radius: 50%;
 }
@@ -37,4 +37,11 @@
 
 .appointment__date > p {
   text-align: right;
+}
+
+.close_logo {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  cursor: pointer;
 }
