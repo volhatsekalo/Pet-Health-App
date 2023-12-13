@@ -1,5 +1,4 @@
 .filters {
-    margin-top: 6%;
     max-height: 50vh;
     height: auto;
     width: 35vh;
@@ -16,6 +15,10 @@
     text-align: center;
     display: flex;
     flex-direction: column;
+}
+
+.filters__container > p {
+    margin-bottom: 7%;
 }
 
 .select {
@@ -47,24 +50,63 @@
 }
 
 .card__add_task {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     max-height: 60vh;
     height: auto;
+    margin-bottom: 3%;
 }
 
-.card__add_task > ul {
+.card__add_task>ul {
     list-style: none;
 }
 
-.card__add_task > ul > li {
+.card__add_task>ul>li {
     background-color: white;
     border-radius: 10px;
 }
 
-.card__add_task>p>b::after {
+/* .card__add_task>p>b::after {
     cursor: pointer;
     content: "\25BC";
     position: absolute;
     top: 50%;
     right: 0;
     transform: translateY(-50%);
+} */
+
+
+select {
+    margin-bottom: 6%;
+    width:20vh;
+}
+
+.card__add_task > p {
+    margin-bottom: 2%;
+}
+
+.add_task__description {
+    margin-bottom: 6%;
+    width:20vh;
+}
+
+.datepicker {
+    margin-bottom: 6%;
+    width:20vh;
+}
+
+option {
+    text-align: center;
+    width:50%;
+
+    /* background-color: lightgray;
+
+    color: lightgoldenrodyellow;
+
+    border: 1px solid #ccc;
+
+    padding: 5px; */
+
+
 }

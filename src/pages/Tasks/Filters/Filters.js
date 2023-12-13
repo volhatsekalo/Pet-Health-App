@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 import './Filters.css';
 import Card from '../../../components/Card/Card';
+import Select from '../../../components/Select/Select';
 import { nanoid } from 'nanoid';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 function Filters() {
-    const [selectedDate, setSelectedDate] = useState(null);
-
-    const handleDateChange = (date) => {
-      setSelectedDate(date);
-    };
-
-    // sdfwsffdeadad
     const [pets, setPets] = useState([
         { id: nanoid(5), name: 'Olly', checked: false },
         { id: nanoid(5), name: 'Charlie', checked: false },
@@ -28,7 +22,6 @@ function Filters() {
     const [dates, setDate] = useState([
         { id: nanoid(5), name: 'Dziś', checked: false },
         { id: nanoid(5), name: 'Jutro', checked: false },
-        { id: nanoid(5), name: 'Kiedykolwiek', checked: false },
     ]);
 
     const handleCheckboxChange = (id, setArray) => {
@@ -40,24 +33,48 @@ function Filters() {
         });
     }
 
+    const [selectedDate, setSelectedDate] = useState(null);
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
+
+    const [selectedOptions, setSelectedOptions] = useState({
+        petChoice: pets[0].name,
+        taskChoice: types[0].name,
+    });
+
+    const handleSelectChange = (e, select) => {
+        setSelectedOptions((prev) => {
+            let newDict = {...prev};
+            console.log(newDict);
+            newDict[select] = e.target.value;
+            return newDict;
+        });
+    };
+
     return (
         <div className='filters__container'>
             <p><b>Dodaj zadanie</b></p>
             <Card classes='add_task'>
                 <p><b>Wybierz zwierzaka</b></p>
-                <ul>
+                <Select 
+                    array={pets}
+                    value={selectedOptions.petChoice}
+                    onChange={(e) => handleSelectChange(e, 'petChoice')}/>
+                {/* <select value={selectedOptions.petChoice} onChange={(e) => handleSelectChange(e, 'petChoice')}>
                     {pets.map((el) => (
-                        <li>{el.name}</li>
+                        <option value={el.name} key={el.id}>{el.name}</option>
                     ))}
-                </ul>
+                </select> */}
                 <p><b>Wybierz zadanie</b></p>
-                <ul>
-                    {types.map((el) => (
-                        <li>{el.name}</li>
-                    ))}
-                </ul>
+                <Select
+                    array={types}
+                    value={selectedOptions.taskChoice}
+                    onChange={(e) => handleSelectChange(e, 'taskChoice')}/>
                 <p><b>Wybierz datę</b></p>
                 <DatePicker
+                    className='datepicker'
                     selected={selectedDate}
                     onChange={handleDateChange}
                     showTimeSelect
@@ -67,13 +84,13 @@ function Filters() {
                     placeholderText="Wybierz datę i godzinę"
                 />
                 <p><b>Dodaj opis</b></p>
-                <input></input>
-                <button className='btn main'>Dodaj</button>
+                <input className='add_task__description' required></input>
+                <button className='btn main small'>DODAJ</button>
             </Card>
             <p><b>Filtry</b></p>
             <div className='filters'>
                 <div className='select'>
-                    <b>ZWIERZAKI</b>
+                    <b>Zwierzaki</b>
                     <div className='checkboxes'>
                         {pets.map((checkbox) => (
                             <label key={checkbox.id}>
@@ -89,7 +106,7 @@ function Filters() {
                     </div>
                 </div>
                 <div className='select'>
-                    <b>TYP ZADANIA</b>
+                    <b>Typ zadania</b>
                     <div className='checkboxes'>
                         {types.map((checkbox) => (
                             <label key={nanoid(3)}>
@@ -105,7 +122,7 @@ function Filters() {
                     </div>
                 </div>
                 <div className='select'>
-                    <b>DATA</b>
+                    <b>Data</b>
                     <div className='checkboxes'>
                         {dates.map((checkbox) => (
                             <label key={nanoid(3)}>
