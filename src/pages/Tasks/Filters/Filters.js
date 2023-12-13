@@ -5,6 +5,7 @@ import Select from '../../../components/Select/Select';
 import { nanoid } from 'nanoid';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import CheckBoxList from '../../../components/CheckBoxList/CheckBoxList';
 
 function Filters() {
     const [pets, setPets] = useState([
@@ -46,7 +47,7 @@ function Filters() {
 
     const handleSelectChange = (e, select) => {
         setSelectedOptions((prev) => {
-            let newDict = {...prev};
+            let newDict = { ...prev };
             console.log(newDict);
             newDict[select] = e.target.value;
             return newDict;
@@ -58,10 +59,10 @@ function Filters() {
             <p><b>Dodaj zadanie</b></p>
             <Card classes='add_task'>
                 <p><b>Wybierz zwierzaka</b></p>
-                <Select 
+                <Select
                     array={pets}
                     value={selectedOptions.petChoice}
-                    onChange={(e) => handleSelectChange(e, 'petChoice')}/>
+                    onChange={(e) => handleSelectChange(e, 'petChoice')} />
                 {/* <select value={selectedOptions.petChoice} onChange={(e) => handleSelectChange(e, 'petChoice')}>
                     {pets.map((el) => (
                         <option value={el.name} key={el.id}>{el.name}</option>
@@ -71,7 +72,7 @@ function Filters() {
                 <Select
                     array={types}
                     value={selectedOptions.taskChoice}
-                    onChange={(e) => handleSelectChange(e, 'taskChoice')}/>
+                    onChange={(e) => handleSelectChange(e, 'taskChoice')} />
                 <p><b>Wybierz datę</b></p>
                 <DatePicker
                     className='datepicker'
@@ -91,39 +92,28 @@ function Filters() {
             <div className='filters'>
                 <div className='select'>
                     <b>Zwierzaki</b>
-                    <div className='checkboxes'>
-                        {pets.map((checkbox) => (
-                            <label key={checkbox.id}>
-                                <input
-                                    type="checkbox"
-                                    name={checkbox.name}
-                                    checked={checkbox.checked}
-                                    onChange={() => handleCheckboxChange(checkbox.id, setPets)}
-                                />
-                                {checkbox.name}
-                            </label>
-                        ))}
-                    </div>
+                    <CheckBoxList
+                        array={pets}
+                        onChange={handleCheckboxChange}
+                        setArray={setPets}
+                    />
                 </div>
                 <div className='select'>
                     <b>Typ zadania</b>
-                    <div className='checkboxes'>
-                        {types.map((checkbox) => (
-                            <label key={nanoid(3)}>
-                                <input
-                                    type="checkbox"
-                                    checked={checkbox.checked}
-                                    readOnly
-                                    onChange={() => handleCheckboxChange(checkbox.id, setType)}
-                                />
-                                {checkbox.name}
-                            </label>
-                        ))}
-                    </div>
+                    <CheckBoxList
+                        array={types}
+                        onChange={handleCheckboxChange}
+                        setArray={setType}
+                    />
                 </div>
                 <div className='select'>
                     <b>Data</b>
-                    <div className='checkboxes'>
+                    <CheckBoxList
+                        array={dates}
+                        onChange={handleCheckboxChange}
+                        setArray={setDate}
+                    />
+                    {/* <div className='checkboxes'>
                         {dates.map((checkbox) => (
                             <label key={nanoid(3)}>
                                 <input
@@ -135,7 +125,7 @@ function Filters() {
                                 {checkbox.name}
                             </label>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
