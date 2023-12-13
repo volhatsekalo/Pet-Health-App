@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Filters.css';
+import './TaskContentControls.css';
 import Card from '../../../components/Card/Card';
 import Select from '../../../components/Select/Select';
 import { nanoid } from 'nanoid';
@@ -7,7 +7,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import CheckBoxList from '../../../components/CheckBoxList/CheckBoxList';
 
-function Filters() {
+function TaskContentControls() {
     const [pets, setPets] = useState([
         { id: nanoid(5), name: 'Olly', checked: false },
         { id: nanoid(5), name: 'Charlie', checked: false },
@@ -89,7 +89,7 @@ function Filters() {
                 <button className='btn main small'>DODAJ</button>
             </Card>
             <p><b>Filtry</b></p>
-            <div className='filters'>
+            <Card classes='filters'>
                 <div className='select'>
                     <b>Zwierzaki</b>
                     <CheckBoxList
@@ -127,9 +127,9 @@ function Filters() {
                         ))}
                     </div> */}
                 </div>
-            </div>
+            </Card>
         </div>
     )
 }
 
-export default Filters
+export default TaskContentControls

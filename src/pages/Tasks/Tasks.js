@@ -3,7 +3,7 @@ import { tasks } from '../../dummy-data-home';
 import { pets } from '../../dummy-data-pets';
 import './Tasks.css';
 import TaskCard from './TaskCard/TaskCard';
-import Filters from './Filters/Filters';
+import TaskContentControls from './TaskContentControls/TaskContentControls';
 import { nanoid } from 'nanoid';
 
 function Tasks() {
@@ -13,18 +13,18 @@ function Tasks() {
 
   return (
     <div className='tasks'>
-      <Filters/>
+      <TaskContentControls />
       <div className='appointment_cards__container'>
         <b>Zaplanowane zadania</b>
         {
-          sortedTasks.map((appointmentData) => 
-            <TaskCard 
-              classes='appointment' 
+          sortedTasks.map((appointmentData) =>
+            <TaskCard
+              classes='appointment'
               content={{
                 ...appointmentData,
                 image: pets.find(pet => pet.name === appointmentData.name)?.image,
               }}
-              key={nanoid(3)} 
+              key={nanoid(3)}
             />
           )
         }
