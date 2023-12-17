@@ -2,9 +2,9 @@ import express from 'express';
 import multer from 'multer';
 import mongoose from 'mongoose';
 
-import petsRouter from './routes/petRoutes.js';
-import usersRouter from './routes/userRoutes.js';
-import tasksRouter from './routes/taskRoutes.js';
+import petsRouter from './routes/petRouter.js';
+import usersRouter from './routes/userRouter.js';
+import tasksRouter from './routes/taskRouter.js';
 
 const app = express();
 const PORT = 3001;

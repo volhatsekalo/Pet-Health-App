@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import { getAllPets, createPet, getPetById, updatePet, deletePet } from '../controllers/petsController';
+import { getAllPets, createPet, getPetById, updatePet, deletePet } from '../controllers/PetController.js';
 
 router.get('/', getAllPets);
 router.post('/', createPet);
