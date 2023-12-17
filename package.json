@@ -1,0 +1,13 @@
+{
+    "name": "Pet-Health-App",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server/app.js",
+    "scripts": {
+      "start": "cd client && npm start",
+      "backend": "cd server && npm start"
+    },
+    "keywords": [],
+    "author": "Volha Tsekalo",
+    "license": "ISC"
+  }
