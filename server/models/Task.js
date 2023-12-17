@@ -1,0 +1,29 @@
+import mongoose from 'mongoose';
+
+const taskSchema = new mongoose.Schema(
+    {
+        taskType: {
+            type: String,
+            required: true,
+        },
+        description: {
+            type: String,
+            default: "",
+        },
+        date: {
+            type: Date,
+            required: true,
+        },
+        time: {
+            type: Date,
+            required: true,
+        },
+        pet: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Pet',
+            required: true,
+        },
+    },
+);
+
+export default mongoose.model('Task', taskSchema);
