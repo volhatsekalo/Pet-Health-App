@@ -17,7 +17,7 @@ export const register = async (req, res) => {
         const newUser = new User({ username, email, hashedPassword, userAvatarUrl });
         await newUser.save();
 
-        res.status(201).json({ message: 'Udało się zarejestrować' });
+        res.status(200).json({ message: 'Udało się zarejestrować' });
     }
     catch (error) {
         res.status(500).json({ message: 'Nie udało się zarejestrować' });
@@ -45,7 +45,13 @@ export const login = async (req, res) => {
             });
         }
 
-        res.status(200).json({ message: 'Zalogowano pomyślnie', userData });
+        jwt.sign({ id: userExists._id }, "tajemnica654", { expiresIn: '30d' }, (err, token) => {
+            if (err) {
+              return res.status(500).json({ message: 'Błąd podczas generowania tokena' });
+            }
+          });
+
+        res.status(200).json({ message: 'Zalogowano pomyślnie', userData, token });
     }
     catch (error) {
         res.status(500).json({ message: 'Wystąpił błąd podczas logowania' });

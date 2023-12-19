@@ -13,8 +13,29 @@ export const getAllPets = async () => {
     }
 }
 
-export const createPet = () => {
+export const createPet = async () => {
+    try {
+        const { name, breed, status, currentWeight, petAvatarUrl } = req.body;
 
+        const pet = new Pet({
+            name,
+            breed,
+            petAvatarUrl,
+            status,
+            currentWeight,
+            user: req.userId, // z auth()
+        });
+
+        await pet.save();
+
+        res.status(200).json({pet});
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'Nie udało się dodać nowego zwierzaka',
+        });
+    }
 }
 
 export const getPetById = () => {

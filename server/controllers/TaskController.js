@@ -13,15 +13,35 @@ export const getAllTasks = async (req, res) => {
     }
 }
 
-export const createTask = (req, res) => {
+export const createTask = async (req, res) => {
+    try {
+        const { taskType, description, date, time, pet } = req.body;
 
+        const task = new Task({
+            taskType,
+            description,
+            date,
+            time,
+            pet,
+        });
+
+        await task.save();
+
+        res.status(200).json({ task });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'Nie udało się dodać nowego zadania',
+        });
+    }
 }
 
 export const getTaskById = (req, res) => {
 
 }
 
-export const updateTask = (req, res) => {
+export const updateTask = async (req, res) => {
 
 }
 
