@@ -17,10 +17,10 @@ export const register = async (req, res) => {
         const newUser = new User({ username, email, hashedPassword, userAvatarUrl });
         await newUser.save();
 
-        res.status(200).json({ message: 'Udało się zarejestrować' });
+        return res.status(200).json({ message: 'Udało się zarejestrować' });
     }
     catch (error) {
-        res.status(500).json({ message: 'Nie udało się zarejestrować' });
+        return res.status(500).json({ message: 'Nie udało się zarejestrować' });
     }
 }
 
@@ -47,18 +47,36 @@ export const login = async (req, res) => {
 
         jwt.sign({ id: userExists._id }, "tajemnica654", { expiresIn: '30d' }, (err, token) => {
             if (err) {
-              return res.status(500).json({ message: 'Błąd podczas generowania tokena' });
+                return res.status(500).json({ message: 'Błąd podczas generowania tokena' });
             }
-          });
+        });
 
-        res.status(200).json({ message: 'Zalogowano pomyślnie', userData, token });
+        return res.status(200).json({ message: 'Zalogowano pomyślnie', userData, token });
     }
     catch (error) {
-        res.status(500).json({ message: 'Wystąpił błąd podczas logowania' });
+        return res.status(500).json({ message: 'Wystąpił błąd podczas logowania' });
     }
 }
 
 
-export const auth = async (req, res) => {
+export const getUserInfo = async (req, res) => {
+    try {
+        const { id } = req.params;
 
+        await User.findById(id)
+            .then(user => {
+                if (!user) {
+                    return res.status(404).json({ message: 'Nie znaleziono użytkownika o podanym ID' });
+                }
+                else {
+                    const { hashedPassword, ...userData } = user;
+                    return res.status(200).json({ userData });
+                }
+            });
+    }
+    catch (err) {
+        return res.status(500).json({
+            message: 'Wystąpił błąd podczas szukania użytkownika',
+        });
+    }
 }
