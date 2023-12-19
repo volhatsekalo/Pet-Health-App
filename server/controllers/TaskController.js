@@ -40,18 +40,19 @@ export const createTask = async (req, res) => {
 export const getTaskById = async (req, res) => {
     try {
         const { id } = req.params;
-        const task = await Task.findById(id)
+        await Task.findById(id)
             .then(task => {
                 if (!task) {
                     return res.status(404).json({ message: 'Nie znaleziono zadania o podanym ID' });
                 }
+                else {
+                    return res.status(200).json({ task });
+                }
             });
-
-        return res.status(200).json({ task });
     }
     catch (err) {
         return res.status(500).json({
-            message: 'Nie udało się znaleźć zadania o podanym id',
+            message: 'Wystąpił błąd podczas szukania zadania',
         });
     }
 }
@@ -60,13 +61,18 @@ export const updateTask = async (req, res) => {
     try {
         const { id } = req.params;
         const { taskType, description, date, time, pet } = req.body;
-        const updatedTask = await Task.findByIdAndUpdate(id, { taskType, description, date, time, pet }, { new: true })
+        await Task.findByIdAndUpdate(id, { taskType, description, date, time, pet }, { new: true })
             .then(updatedTask => {
                 if (!updatedTask) {
                     return res.status(404).json({ message: 'Nie znaleziono zadania o podanym ID' });
                 }
+                else {
+                    return res.status(200).json({
+                        message: 'Dane zadania zostały pomyślnie zaktualizowane',
+                        updatedTask
+                    });
+                }
             })
-        return res.status(200).json({ message: 'Dane zadania zostały pomyślnie zaktualizowane', updatedTask });
     }
     catch (err) {
         return res.status(500).json({ message: 'Nie udało się zaktualizować zadania' });
