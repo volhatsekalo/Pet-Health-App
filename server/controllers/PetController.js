@@ -2,7 +2,7 @@ import Pet from '../models/Pet.js';
 
 export const getAllPets = async () => {
     try {
-        const pets = await Pet.find();
+        const pets = await Pet.find({ user: req.userId });
         res.status(200).json(pets);
     }
     catch (err) {

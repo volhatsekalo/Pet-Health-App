@@ -26,7 +26,6 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
-
         const { email, password } = req.body;
 
         const userExists = await User.findOne({ email });
@@ -49,9 +48,10 @@ export const login = async (req, res) => {
             if (err) {
                 return res.status(500).json({ message: 'Błąd podczas generowania tokena' });
             }
+            else {
+                return res.status(200).json({ message: 'Zalogowano pomyślnie', userData, token });
+            }
         });
-
-        return res.status(200).json({ message: 'Zalogowano pomyślnie', userData, token });
     }
     catch (error) {
         return res.status(500).json({ message: 'Wystąpił błąd podczas logowania' });
@@ -61,9 +61,7 @@ export const login = async (req, res) => {
 
 export const getUserInfo = async (req, res) => {
     try {
-        const { id } = req.params;
-
-        await User.findById(id)
+        await User.findById(req.userId)
             .then(user => {
                 if (!user) {
                     return res.status(404).json({ message: 'Nie znaleziono użytkownika o podanym ID' });

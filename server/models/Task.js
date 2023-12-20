@@ -5,6 +5,7 @@ const taskSchema = new mongoose.Schema(
         taskType: {
             type: String,
             required: true,
+            enum: ['lek', 'wizyta u weterynarza', 'szczepienie'],
         },
         description: {
             type: String,
