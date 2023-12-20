@@ -8,10 +8,19 @@ import tasksRouter from './routes/taskRouter.js';
 
 const app = express();
 const PORT = 3001;
+const mongoUrl = 'mongodb+srv://olga:zwierzaki2012@cluster0.f72advh.mongodb.net/?retryWrites=true&w=majority';
 
 app.use(express.json());
 
-app.use("/pets", petsRouter); 
+mongoose.connect(mongoUrl)
+    .then(() => {
+        console.log("Udało się połączyć z bazą ");
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+
+app.use("/pets", petsRouter);
 app.use("/users", usersRouter);
 app.use("/tasks", tasksRouter)
 

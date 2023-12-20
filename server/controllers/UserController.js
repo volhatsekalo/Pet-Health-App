@@ -6,20 +6,23 @@ export const register = async (req, res) => {
     try {
         const { username, email, password, userAvatarUrl } = req.body;
 
-        const userExists = await User.findOne({ email });
-        if (userExists) {
-            return res.status(400).json({ message: 'Użytkownik z tym adresem email już istnieje' });
-        }
+        await User.findOne({ email })
+            .then(userExists => {
+                if(userExists) {
+                    return res.status(400).json({ message: 'Użytkownik z tym adresem email już istnieje' });
+                }
+            });
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        const newUser = new User({ username, email, hashedPassword, userAvatarUrl });
+        let newUser = new User({ username, email, password: hashedPassword, userAvatarUrl });
         await newUser.save();
 
-        return res.status(200).json({ message: 'Udało się zarejestrować' });
+        return res.status(200).json({ message: 'Udało się zarejestrować', newUser });
     }
-    catch (error) {
+    catch (err) {
+        console.log(err);
         return res.status(500).json({ message: 'Nie udało się zarejestrować' });
     }
 }
@@ -36,19 +39,19 @@ export const login = async (req, res) => {
             })
         }
 
-        const isValidPassword = await bcrypt.compare(password, userExists.hashedPassword);
-
-        if (!isValidPassword) {
-            return res.status(401).json({
-                message: "Niepoprawny email lub hasło",
+        await bcrypt.compare(password, hashedPassword)
+            .then(isValidPassword => {
+                if (!isValidPassword) {
+                    return res.status(401).json({ message: "Niepoprawny email lub hasło", });
+                }
             });
-        }
 
         jwt.sign({ id: userExists._id }, "tajemnica654", { expiresIn: '30d' }, (err, token) => {
             if (err) {
                 return res.status(500).json({ message: 'Błąd podczas generowania tokena' });
             }
             else {
+                res.cookie('Ciasteczko', token, { httpOnly: true, secure: true });
                 return res.status(200).json({ message: 'Zalogowano pomyślnie', userData, token });
             }
         });

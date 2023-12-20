@@ -1,6 +1,6 @@
 import Pet from '../models/Pet.js';
 
-export const getAllPets = async () => {
+export const getAllPets = async (req, res) => {
     try {
         const pets = await Pet.find({ user: req.userId });
         res.status(200).json(pets);
@@ -13,7 +13,7 @@ export const getAllPets = async () => {
     }
 }
 
-export const createPet = async () => {
+export const createPet = async (req, res) => {
     try {
         const { name, breed, status, currentWeight, petAvatarUrl } = req.body;
 
@@ -80,7 +80,7 @@ export const updatePet = async (req, res) => {
     }
 }
 
-export const deletePet = async () => {
+export const deletePet = async (req, res) => {
     try {
         const { id } = req.params;
         await Pet.findByIdAndDelete(id)
