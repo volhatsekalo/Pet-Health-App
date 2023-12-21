@@ -1,6 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
 
 import petsRouter from './routes/petRouter.js';
 import usersRouter from './routes/userRouter.js';
@@ -10,6 +11,7 @@ const app = express();
 const PORT = 3001;
 const mongoUrl = 'mongodb+srv://olga:zwierzaki2012@cluster0.f72advh.mongodb.net/?retryWrites=true&w=majority';
 
+app.use(cookieParser());
 app.use(express.json());
 
 mongoose.connect(mongoUrl)

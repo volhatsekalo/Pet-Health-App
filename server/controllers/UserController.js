@@ -32,31 +32,24 @@ export const login = async (req, res) => {
         const { email, password } = req.body;
 
         const userExists = await User.findOne({ email });
-        const { hashedPassword, ...userData } = userExists; // wyciagamy dane bez hasla
         if (!userExists) {
             return res.status(404).json({
                 message: "Użytkownik o podanym email nie istnieje",
             })
         }
 
-        await bcrypt.compare(password, hashedPassword)
+        await bcrypt.compare(password, userExists.password)
             .then(isValidPassword => {
                 if (!isValidPassword) {
-                    return res.status(401).json({ message: "Niepoprawny email lub hasło", });
+                    return res.status(401).json({ message: "Niepoprawny email lub hasło" });
                 }
             });
-
-        jwt.sign({ id: userExists._id }, "tajemnica654", { expiresIn: '30d' }, (err, token) => {
-            if (err) {
-                return res.status(500).json({ message: 'Błąd podczas generowania tokena' });
-            }
-            else {
-                res.cookie('Ciasteczko', token, { httpOnly: true, secure: true });
-                return res.status(200).json({ message: 'Zalogowano pomyślnie', userData, token });
-            }
-        });
+    
+        const token = jwt.sign({ _id: userExists._id }, "tajemnica654", { expiresIn: '30d' });
+        return res.cookie('accessToken', token, { httpOnly: true, secure: true }).status(200).json({ message: 'Zalogowano pomyślnie', token });
     }
-    catch (error) {
+    catch (err) {
+        console.log(err);
         return res.status(500).json({ message: 'Wystąpił błąd podczas logowania' });
     }
 }
@@ -70,8 +63,8 @@ export const getUserInfo = async (req, res) => {
                     return res.status(404).json({ message: 'Nie znaleziono użytkownika o podanym ID' });
                 }
                 else {
-                    const { hashedPassword, ...userData } = user;
-                    return res.status(200).json({ userData });
+                    const { password, ...userData } = user._doc;
+                    return res.status(200).json({ ...userData });
                 }
             });
     }

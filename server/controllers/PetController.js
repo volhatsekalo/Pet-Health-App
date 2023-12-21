@@ -6,7 +6,6 @@ export const getAllPets = async (req, res) => {
         res.status(200).json(pets);
     }
     catch (err) {
-        console.log(err);
         res.status(500).json({
             message: 'Nie udało się pobrać listy zwierząt',
         });
