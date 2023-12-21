@@ -15,13 +15,12 @@ export const getAllTasks = async (req, res) => {
 
 export const createTask = async (req, res) => {
     try {
-        const { taskType, description, date, time, pet } = req.body;
+        const { taskType, description, date, pet } = req.body;
 
         const task = new Task({
             taskType,
             description,
             date,
-            time,
             pet,
         });
 
@@ -60,8 +59,8 @@ export const getTaskById = async (req, res) => {
 export const updateTask = async (req, res) => {
     try {
         const { id } = req.params;
-        const { taskType, description, date, time, pet } = req.body;
-        await Task.findByIdAndUpdate(id, { taskType, description, date, time, pet }, { new: true })
+        const { taskType, description, date, pet } = req.body;
+        await Task.findByIdAndUpdate(id, { taskType, description, date, pet }, { new: true })
             .then(updatedTask => {
                 if (!updatedTask) {
                     return res.status(404).json({ message: 'Nie znaleziono zadania o podanym ID' });

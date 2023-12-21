@@ -61,7 +61,7 @@ export const updatePet = async (req, res) => {
     try {
         const { id } = req.params;
         const { name, breed, status, currentWeight, petAvatarUrl } = req.body;
-        await Task.findByIdAndUpdate(id, { name, breed, status, currentWeight, petAvatarUrl, user: req.userId }, { new: true })
+        await Pet.findByIdAndUpdate(id, { name, breed, status, currentWeight, petAvatarUrl, user: req.userId }, { new: true })
             .then(updatedPet => {
                 if (!updatedPet) {
                     return res.status(404).json({ message: 'Nie znaleziono zwierzęcia o podanym ID' });
