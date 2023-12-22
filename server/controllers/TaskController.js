@@ -45,7 +45,7 @@ export const getTaskById = async (req, res) => {
                     return res.status(404).json({ message: 'Nie znaleziono zadania o podanym ID' });
                 }
                 else {
-                    return res.status(200).json({ task });
+                    return res.status(200).json({ message: 'Udało się dodać nowe zadanie', task });
                 }
             });
     }

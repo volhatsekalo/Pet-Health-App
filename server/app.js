@@ -1,11 +1,11 @@
 import express from 'express';
-import multer from 'multer';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 
 import petsRouter from './routes/petRouter.js';
 import usersRouter from './routes/userRouter.js';
 import tasksRouter from './routes/taskRouter.js';
+import uploadRouter from './routes/uploadRouter.js';
 
 const app = express();
 const PORT = 3001;
@@ -22,9 +22,17 @@ mongoose.connect(mongoUrl)
         console.log(err);
     })
 
+// app.post('/upload', upload.single('file'), function (req, res, next) {
+//     res.status(200).json({
+//         message: 'File uploaded successfully',
+//         url: `/uploads/${req.file.originalname}`
+//     })
+// });
+
+app.use("/uploads", uploadRouter);
 app.use("/pets", petsRouter);
 app.use("/users", usersRouter);
-app.use("/tasks", tasksRouter)
+app.use("/tasks", tasksRouter);
 
 app.listen(PORT, (err) => {
     if (err) {

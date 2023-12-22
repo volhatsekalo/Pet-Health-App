@@ -27,7 +27,7 @@ export const createPet = async (req, res) => {
 
         await pet.save();
 
-        res.status(200).json({ pet });
+        res.status(200).json({ message: 'Udało się dodać nowego zwierzaka', pet });
     }
     catch (err) {
         console.log(err);
