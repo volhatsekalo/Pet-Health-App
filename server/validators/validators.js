@@ -1,7 +1,7 @@
 import { body } from 'express-validator';
 
 export const validateRegistration = [
-    body('username').notEmpty().notEmpty().matches(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ0-9]+$/, 'i').withMessage('Username should contain only letters and digits'),
+    body('username').notEmpty().matches(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ0-9]+$/, 'i').withMessage('Username should contain only letters and digits'),
     body('email').isEmail().normalizeEmail().withMessage('Email should contain @'),
     body('password').isLength({ min: 5 }).withMessage('Password should be at least 5 characters long'),
     body('userAvatarUrl').optional().isURL(),

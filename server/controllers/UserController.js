@@ -8,7 +8,7 @@ export const register = async (req, res) => {
 
         await User.findOne({ email })
             .then(userExists => {
-                if(userExists) {
+                if (userExists) {
                     return res.status(400).json({ message: 'Użytkownik z tym adresem email już istnieje' });
                 }
             });
@@ -38,15 +38,13 @@ export const login = async (req, res) => {
             })
         }
 
-        await bcrypt.compare(password, userExists.password)
-            .then(isValidPassword => {
-                if (!isValidPassword) {
-                    return res.status(401).json({ message: "Niepoprawny email lub hasło" });
-                }
-            });
-    
-        const token = jwt.sign({ _id: userExists._id }, "tajemnica654", { expiresIn: '30d' });
-        return res.cookie('accessToken', token, { httpOnly: true, secure: true }).status(200).json({ message: 'Zalogowano pomyślnie', token });
+        const isValidPassword = await bcrypt.compare(password, userExists.password)
+        if (!isValidPassword) {
+            return res.status(401).json({ message: "Niepoprawny email lub hasło" });
+        }
+
+        const token = jwt.sign({ _id: userExists._id }, "tajemnica654", { expiresIn: '30d' }); 
+        return res.cookie('accessToken', token, { httpOnly: true, secure: true, sameSite: 'none' }).status(200).json({ message: 'Zalogowano pomyślnie', token });
     }
     catch (err) {
         console.log(err);

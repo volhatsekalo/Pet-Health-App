@@ -84,3 +84,15 @@ hr {
     text-decoration: underline; 
     cursor: pointer;
 }
+
+.login_form>form>p{
+margin-bottom: 2%;
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}

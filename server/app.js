@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 import petsRouter from './routes/petRouter.js';
 import usersRouter from './routes/userRouter.js';
@@ -13,6 +14,7 @@ const mongoUrl = 'mongodb+srv://olga:zwierzaki2012@cluster0.f72advh.mongodb.net/
 
 app.use(cookieParser());
 app.use(express.json());
+app.use(cors());
 
 mongoose.connect(mongoUrl)
     .then(() => {

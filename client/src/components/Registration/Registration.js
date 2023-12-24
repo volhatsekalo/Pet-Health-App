@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import './Registration.css';
 
-function RegistrationForm({openLogin, onRequestClose}) {
+function RegistrationForm({ openLogin, onRequestClose }) {
+  const [loginMessage, setLoginMessage] = useState('');
+  const [cll, setcll] = useState('green');
+
   const [data, setData] = useState({
     username: '',
     email: '',
@@ -16,9 +19,33 @@ function RegistrationForm({openLogin, onRequestClose}) {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Dane z formularza:', data);
+    try {
+      const response = await fetch('http://localhost:3001/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      
+      if (response.ok) {
+        setcll('green');
+        setLoginMessage(result.message);
+        console.log('Użytkownik zarejestrowany pomyślnie!');
+      } else {
+        setcll('red');
+        setLoginMessage(result.message);
+        console.error('Błąd rejestracji:', response.statusText);
+      }
+    } catch (err) {
+      setcll('red');
+      setLoginMessage('Błąd po stronie serwera. Spróbuj ponownie później');
+      console.error('Błąd po stronie serwera:', err.message);
+    }
   };
 
   const handleClick = () => {
@@ -68,16 +95,18 @@ function RegistrationForm({openLogin, onRequestClose}) {
           />
         </div>
         <div className='registration_form__input'>
-        <button className="registration_form__button btn main"
-          type="submit"
-        >
-          ZAREJESTRUJ SIĘ
-        </button>
+          <button className="registration_form__button btn main"
+            type="submit"
+          >
+            ZAREJESTRUJ SIĘ
+          </button>
         </div>
-        
         <hr></hr>
         <p>
           Masz już konto? <button className="registration_form__login" onClick={handleClick}>Zaloguj</button>
+        </p>
+        <p className={cll}>
+          {loginMessage}
         </p>
       </form>
     </div>
