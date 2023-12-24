@@ -16,20 +16,13 @@ app.use(express.json());
 
 mongoose.connect(mongoUrl)
     .then(() => {
-        console.log("Udało się połączyć z bazą ");
+        console.log("Udało się połączyć z bazą danych");
     })
     .catch((err) => {
         console.log(err);
     })
 
-// app.post('/upload', upload.single('file'), function (req, res, next) {
-//     res.status(200).json({
-//         message: 'File uploaded successfully',
-//         url: `/uploads/${req.file.originalname}`
-//     })
-// });
-
-app.use("/uploads", uploadRouter);
+app.use("/upload", uploadRouter);
 app.use("/pets", petsRouter);
 app.use("/users", usersRouter);
 app.use("/tasks", tasksRouter);
@@ -39,6 +32,6 @@ app.listen(PORT, (err) => {
         console.log("Błąd przy ładowaniu serwera");
     }
     else {
-        console.log(`Serwer nasłuchuje na porcie: ${PORT}`);
+        console.log(`Serwer nasłuchuje na porcie ${PORT}`);
     }
 })
