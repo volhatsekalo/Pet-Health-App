@@ -42,9 +42,9 @@ export const login = async (req, res) => {
         if (!isValidPassword) {
             return res.status(401).json({ message: "Niepoprawny email lub hasło" });
         }
-
+        
         const token = jwt.sign({ _id: userExists._id }, "tajemnica654", { expiresIn: '30d' }); 
-        return res.cookie('accessToken', token, { httpOnly: true, secure: true, sameSite: 'none' }).status(200).json({ message: 'Zalogowano pomyślnie', token });
+        return res.status(200).json({ message: 'Zalogowano pomyślnie', token });
     }
     catch (err) {
         console.log(err);

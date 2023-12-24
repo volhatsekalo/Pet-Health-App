@@ -34,8 +34,8 @@ function LoginForm({ openRegistration, onRequestClose }) {
       if (response.ok) {
         setcll('green');
         setLoginMessage(result.message);
-        const cookieHeader = response.headers.get('Set-Cookie');
-        document.cookie = cookieHeader;
+        const oneMonthInSeconds = 24 * 60 * 60 * 30;
+        document.cookie = `accessToken=${result.token}; Secure; SameSite=None;  max-age=${oneMonthInSeconds}`;
         console.log('Użytkownik zalogowany pomyślnie!');
       } else {
         setcll('red');
