@@ -63,11 +63,6 @@ function TaskContentControls() {
                     array={pets}
                     value={selectedOptions.petChoice}
                     onChange={(e) => handleSelectChange(e, 'petChoice')} />
-                {/* <select value={selectedOptions.petChoice} onChange={(e) => handleSelectChange(e, 'petChoice')}>
-                    {pets.map((el) => (
-                        <option value={el.name} key={el.id}>{el.name}</option>
-                    ))}
-                </select> */}
                 <p><b>Wybierz zadanie</b></p>
                 <Select
                     array={types}
@@ -113,19 +108,6 @@ function TaskContentControls() {
                         onChange={handleCheckboxChange}
                         setArray={setDate}
                     />
-                    {/* <div className='checkboxes'>
-                        {dates.map((checkbox) => (
-                            <label key={nanoid(3)}>
-                                <input
-                                    type="checkbox"
-                                    checked={checkbox.checked}
-                                    readOnly
-                                    onChange={() => handleCheckboxChange(checkbox.id, setDate)}
-                                />
-                                {checkbox.name}
-                            </label>
-                        ))}
-                    </div> */}
                 </div>
             </Card>
         </div>

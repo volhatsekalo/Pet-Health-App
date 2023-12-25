@@ -1,32 +1,36 @@
 import Card from '../../../components/Card/Card';
 import close from "../../../assets/close.png";
+import image from "../../../assets/kot.png"
 import './TaskCard.css';
 
 const TaskCard = ({ classes, content }) => {
-  const { name, type, date, time, description, image } = content;
+  const { taskType, date, description, pet, petName } = content;
+
+  console.log(pet + petName)
 
   const today = new Date();
+  const taskdate = new Date(date);
 
-  const dateArray = date.split("-");
-  const year = parseInt(dateArray[0], 10);
-  const month = parseInt(dateArray[1], 10) - 1;
-  const day = parseInt(dateArray[2], 10);
+  const year = taskdate.getFullYear();
+  const month = taskdate.getMonth(); 
+  const day = taskdate.getDate();
+  const hour = taskdate.getHours();
+  const minutes = taskdate.getMinutes();
+
   const givenDate = new Date(year, month, day);
-
-  const [hours, minutes] = time.split(':');
   const givenTime = new Date();
-  givenTime.setHours(hours);
+  givenTime.setHours(hour);
   givenTime.setMinutes(minutes);
 
   const formateDate = () => {
     if (
-      givenDate.getFullYear() === today.getFullYear() &&
-      givenDate.getMonth() === today.getMonth() &&
-      givenDate.getDate() === today.getDate()
+      year === today.getFullYear() &&
+      month === today.getMonth() &&
+      day === today.getDate()
     ) { return "DZISIAJ"; }
-    else if (givenDate.getFullYear() === today.getFullYear() &&
-      givenDate.getMonth() === today.getMonth() &&
-      givenDate.getDate() === today.getDate() + 1) {
+    else if (year === today.getFullYear() &&
+      month === today.getMonth() &&
+      day === today.getDate() + 1) {
       return "JUTRO";
     }
     else {
@@ -47,10 +51,10 @@ const TaskCard = ({ classes, content }) => {
   return (
     <Card classes={classes}>
       <img className="close_logo" src={close} alt="close" />
-      <img src={image} alt={`${name}-appointment`} className='photo' />
+      <img src={image} alt={`${petName}-appointment`} className='photo' />
       <div className='text_container'>
-        <h3>{name}</h3>
-        <p><b>Typ: </b>{type}</p>
+        <h3>{petName}</h3>
+        <p><b>Typ: </b>{taskType}</p>
         <p><b>Opis: </b>{description}</p>
       </div>
       <div className='appointment__date'>

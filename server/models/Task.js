@@ -13,7 +13,6 @@ const taskSchema = new mongoose.Schema(
         },
         date: {
             type: Date,
-            timestamps: false,
             required: true,
         },
         pet: {

@@ -7,7 +7,7 @@ import { errorHandlingForValidation } from '../validators/errorHandlingForValida
 
 router.get('/', verifyToken, getAllPets); 
 router.post('/', verifyToken, validatePet, errorHandlingForValidation, createPet);
-router.get('/:id', verifyToken, getPetById);
+router.get('/:id', getPetById);
 router.put('/:id', verifyToken, validatePet, errorHandlingForValidation, updatePet);
 router.delete('/:id', verifyToken, deletePet);
 
