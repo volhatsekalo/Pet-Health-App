@@ -5,7 +5,7 @@ import { verifyToken } from '../middlewares/authMiddleware.js';
 import { validateTask } from '../validators/validators.js'
 import { errorHandlingForValidation } from '../validators/errorHandlingForValidation.js';
 
-router.get('/', getAllTasks); 
+router.get('/', verifyToken, getAllTasks); 
 router.post('/', verifyToken, validateTask, errorHandlingForValidation, createTask);
 router.get('/:id', verifyToken, getTaskById);
 router.put('/:id', verifyToken, validateTask, errorHandlingForValidation, updateTask);

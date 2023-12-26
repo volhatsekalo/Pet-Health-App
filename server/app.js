@@ -14,7 +14,10 @@ const mongoUrl = 'mongodb+srv://olga:zwierzaki2012@cluster0.f72advh.mongodb.net/
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
 
 mongoose.connect(mongoUrl)
     .then(() => {

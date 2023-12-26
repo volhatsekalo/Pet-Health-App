@@ -11,7 +11,7 @@ function Tasks() {
       try {
         const response = await fetch('http://localhost:3001/tasks', {
           method: 'GET',
-          // credentials: 'include',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
           }
@@ -19,12 +19,18 @@ function Tasks() {
         const data = await response.json();
         console.log(data);
         const sortedTasks = data.sort((a, b) => new Date(a.date) - new Date(b.date));
-        
+
         const tasksWithPetInfo = await Promise.all(sortedTasks.map(async task => {
           try {
-            const petResponse = await fetch(`http://localhost:3001/pets/${task.pet}`);
+            const petResponse = await fetch(`http://localhost:3001/pets/${task.pet}`, {
+              method: 'GET',
+              credentials: 'include',
+              headers: {
+                'Content-Type': 'application/json',
+              }
+            });
             const petData = await petResponse.json();
-            const petName = petData.pet.name; 
+            const petName = petData.pet.name;
             const petImage = petData.pet.petAvatarUrl;
             return { ...task, petName };
           } catch (error) {
@@ -43,7 +49,7 @@ function Tasks() {
 
   return (
     <div className='tasks'>
-      <TaskContentControls tasks={tasks}/>
+      <TaskContentControls />
       <div className='appointment_cards__container'>
         <b>Zaplanowane zadania</b>
         {

@@ -7,16 +7,12 @@ import { nanoid } from 'nanoid';
 
 function AddTaskContent() {
 
-    const [pets, setPets] = useState([
-        { id: nanoid(5), name: 'Olly', checked: false },
-        { id: nanoid(5), name: 'Charlie', checked: false },
-        { id: nanoid(5), name: 'Brownie', checked: false }
-    ]);
+    const [pets, setPets] = useState([]);
 
     const [types, setType] = useState([
-        { id: nanoid(5), name: 'Leki', checked: false },
-        { id: nanoid(5), name: 'Szczepienia', checked: false },
-        { id: nanoid(5), name: 'Wizyta u weterynarza', checked: false },
+        { id: nanoid(5), name: 'lek', checked: false },
+        { id: nanoid(5), name: 'szczepienie', checked: false },
+        { id: nanoid(5), name: 'wizyta u weterynarza', checked: false },
     ]);
 
     const [selectedDate, setSelectedDate] = useState(null);
@@ -26,7 +22,7 @@ function AddTaskContent() {
     };
 
     const [selectedOptions, setSelectedOptions] = useState({
-        petChoice: pets[0].name,
+        petChoice: '',
         taskChoice: types[0].name,
     });
 
@@ -38,26 +34,38 @@ function AddTaskContent() {
         });
     };
 
+    const [description, setDescription] = useState("");
+
+    const handleInputChange = (event) => {
+        const text = event.target.value;
+        setDescription(text);
+    };
+
     const addTask = async () => {
-        // try {
-        //     // wyciagnac dane z selectow
-        //     const taskData = {date: selectedDate, taskType: types[0].name , pet: selectedpetid}
+        try {
+            const petChoice = selectedOptions.petChoice;
+            const petId = pets.find((pet) => pet.name == petChoice).id;
+            const taskData = {date: selectedDate, description, taskType: selectedOptions.taskChoice, pet: petId}
 
-        //     const response = await fetch('http://localhost:3001/pets', {
-        //         method: 'POST',
-        //         // credentials: 'include',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(taskData),
-        //     });
+            const response = await fetch('http://localhost:3001/tasks', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(taskData),
+            });
 
-        // render page again
+            const result = await response.json();
 
-        // }
-        // catch (err) {
-        //     console.error('Błąd po stronie serwera:', err);
-        // }
+            console.log(result);
+
+        //render page again
+
+        }
+        catch (err) {
+            console.error('Błąd po stronie serwera:', err);
+        }
     }
 
     useEffect(() => {
@@ -65,7 +73,7 @@ function AddTaskContent() {
             try {
                 const response = await fetch('http://localhost:3001/pets', {
                     method: 'GET',
-                    // credentials: 'include',
+                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
                     }
@@ -76,8 +84,13 @@ function AddTaskContent() {
                 const petInfo = petsData.map(pet => {
                     return { id: pet._id, name: pet.name, checked: false };
                 })
-                console.log(petsData + 'xddd');
+
                 setPets(petInfo);
+                setSelectedOptions((prev) => {
+                    let newDict = { ...prev };
+                    newDict['petChoice'] = petInfo[0].name;
+                    return newDict;
+                });
             }
             catch (err) {
                 console.error('Błąd po stronie serwera:', err);
@@ -110,7 +123,7 @@ function AddTaskContent() {
                 placeholderText="Wybierz datę i godzinę"
             />
             <p><b>Dodaj opis</b></p>
-            <input className='add_task__description' required></input>
+            <input className='add_task__description' required value={description} onChange={handleInputChange}/>
             <button className='btn main small' onClick={addTask}>DODAJ</button>
         </Card>
     )

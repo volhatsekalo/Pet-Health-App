@@ -38,6 +38,10 @@ function LoginForm({ openRegistration, onRequestClose }) {
         const oneMonthInSeconds = 24 * 60 * 60 * 30; // 30 dni
         document.cookie = `accessToken=${result.token}; Secure; SameSite=None;  max-age=${oneMonthInSeconds}`;
 
+        setTimeout(() => {
+          window.location.href = '/'; 
+        }, 500);
+
         console.log('Użytkownik zalogowany pomyślnie!');
       }
 
