@@ -6,8 +6,6 @@ import './TaskCard.css';
 const TaskCard = ({ classes, content }) => {
   const { taskType, date, description, pet, petName } = content;
 
-  console.log(pet + petName)
-
   const today = new Date();
   const taskdate = new Date(date);
 

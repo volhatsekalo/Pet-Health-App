@@ -3,14 +3,14 @@ import './Login.css';
 
 function LoginForm({ openRegistration, onRequestClose }) {
   const [loginMessage, setLoginMessage] = useState('');
-  const [cll, setcll] = useState('green');
+  const [loginMessageState, setLoginMessageState] = useState('green');
 
   const [data, setData] = useState({
     email: '',
     password: '',
   });
 
-  const handleChange = (event) => {
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
     setData({
       ...data,
@@ -18,7 +18,7 @@ function LoginForm({ openRegistration, onRequestClose }) {
     });
   };
 
-  const handleSubmit = async (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
     try {
       const response = await fetch('http://localhost:3001/users/login', {
@@ -30,33 +30,39 @@ function LoginForm({ openRegistration, onRequestClose }) {
       });
 
       const result = await response.json();
-    
+
       if (response.ok) {
-        setcll('green');
+        setLoginMessageState('green');
         setLoginMessage(result.message);
-        const oneMonthInSeconds = 24 * 60 * 60 * 30;
+
+        const oneMonthInSeconds = 24 * 60 * 60 * 30; // 30 dni
         document.cookie = `accessToken=${result.token}; Secure; SameSite=None;  max-age=${oneMonthInSeconds}`;
+
         console.log('Użytkownik zalogowany pomyślnie!');
-      } else {
-        setcll('red');
+      }
+
+      else {
+        setLoginMessageState('red');
         setLoginMessage(result.message);
         console.error('Błąd logowania:', response.statusText);
       }
-    } catch (err) {
-      setcll('red');
+    }
+
+    catch (err) {
+      setLoginMessageState('red');
       setLoginMessage('Błąd po stronie serwera. Spróbuj ponownie później');
       console.error('Błąd po stronie serwera:', err.message);
     }
   };
 
-  const handleClick = () => {
+  const handleRegisterClick = () => {
     onRequestClose();
     openRegistration();
   }
 
   return (
     <div className='login_form'>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleFormSubmit}>
         <h2>Cześć!</h2>
         <h3>Wprowadź swoje dane do logowania.</h3>
         <div className='login_form__input'>
@@ -66,7 +72,7 @@ function LoginForm({ openRegistration, onRequestClose }) {
             name="email"
             id="email"
             value={data.email}
-            onChange={handleChange}
+            onChange={handleInputChange}
             required
           />
         </div>
@@ -77,7 +83,7 @@ function LoginForm({ openRegistration, onRequestClose }) {
             name="password"
             id="password"
             value={data.password}
-            onChange={handleChange}
+            onChange={handleInputChange}
             required
           />
         </div>
@@ -90,9 +96,9 @@ function LoginForm({ openRegistration, onRequestClose }) {
         </div>
         <hr></hr>
         <p>
-          Nie masz konta? <button className="login_form__register" onClick={handleClick}>Zarejestruj się</button>
+          Nie masz konta? <button className="login_form__register" onClick={handleRegisterClick}>Zarejestruj się</button>
         </p>
-        <p className={cll}>
+        <p className={loginMessageState}>
           {loginMessage}
         </p>
       </form>

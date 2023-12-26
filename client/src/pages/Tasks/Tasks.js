@@ -43,7 +43,7 @@ function Tasks() {
 
   return (
     <div className='tasks'>
-      <TaskContentControls />
+      <TaskContentControls tasks={tasks}/>
       <div className='appointment_cards__container'>
         <b>Zaplanowane zadania</b>
         {
