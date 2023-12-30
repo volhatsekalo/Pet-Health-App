@@ -59,6 +59,7 @@ function Tasks() {
               content={{
                 ...taskData,
               }}
+              setTasks={setTasks}
               key={taskData._id}
             />
           )

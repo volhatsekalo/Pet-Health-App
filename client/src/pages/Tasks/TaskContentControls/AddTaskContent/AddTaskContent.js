@@ -60,7 +60,9 @@ function AddTaskContent() {
 
             console.log(result);
 
-        //render page again
+            window.location.reload();
+
+            //render page again
 
         }
         catch (err) {

@@ -3,14 +3,17 @@ import close from "../../../assets/close.png";
 import image from "../../../assets/kot.png"
 import './TaskCard.css';
 
-const TaskCard = ({ classes, content }) => {
-  const { taskType, date, description, pet, petName } = content;
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+
+const TaskCard = ({ classes, content, setTasks }) => {
+  const { taskType, date, description, pet, petName, _id } = content;
 
   const today = new Date();
   const taskdate = new Date(date);
 
   const year = taskdate.getFullYear();
-  const month = taskdate.getMonth(); 
+  const month = taskdate.getMonth();
   const day = taskdate.getDate();
   const hour = taskdate.getHours();
   const minutes = taskdate.getMinutes();
@@ -46,9 +49,46 @@ const TaskCard = ({ classes, content }) => {
     return givenTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 
+  const deleteTask = async () => {
+    try {
+      confirmAlert({
+        title: 'Usuwanie Zadania',
+        message: 'Czy na pewno chcesz usunąć to zadanie?',
+        buttons: [
+          {
+            label: 'Tak',
+            onClick: async () => {
+              await fetch(`http://localhost:3001/tasks/${_id}`, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                  'Content-Type': 'application/json',
+                }
+              });
+
+              setTasks((prev) => {
+                let newArray = [...prev];
+                newArray = newArray.filter((task) => task._id != _id);
+                return newArray;
+              });
+            }
+          },
+          {
+            label: 'Nie',
+            onClick: () => { },
+          },
+        ],
+      });
+
+    }
+    catch (err) {
+      console.error('Błąd przy usuwaniu zadania', err);
+    }
+  }
+
   return (
     <Card classes={classes}>
-      <img className="close_logo" src={close} alt="close" />
+      <img className="close_logo" src={close} alt="close" onClick={deleteTask} />
       <img src={image} alt={`${petName}-appointment`} className='photo' />
       <div className='text_container'>
         <h3>{petName}</h3>

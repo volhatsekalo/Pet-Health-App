@@ -14,7 +14,7 @@ import './Navbar.css';
 function Navbar() {
   const [isLModalOpen, setIsLModalOpen] = useState(false);
   const [isRModalOpen, setIsRModalOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   let navigate = useNavigate();
 
