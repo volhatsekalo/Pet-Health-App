@@ -109,3 +109,7 @@ select, option, .datepicker, .add_task__description {
     border: 1px solid #ccc;
     color: #333333;
 }
+
+.select + button {
+    margin-top: 3%;
+}

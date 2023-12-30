@@ -31,8 +31,9 @@ function Tasks() {
             });
             const petData = await petResponse.json();
             const petName = petData.pet.name;
+            const petId = petData.pet._id;
             const petImage = petData.pet.petAvatarUrl;
-            return { ...task, petName };
+            return { ...task, petName, petId };
           } catch (error) {
             console.error('Błąd przy pobieraniu informacji o zwierzaku:', error);
             return task;
@@ -57,7 +58,7 @@ function Tasks() {
             <TaskCard
               classes='appointment'
               content={{
-                ...taskData,
+                ...taskData
               }}
               setTasks={setTasks}
               key={taskData._id}

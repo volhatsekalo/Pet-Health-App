@@ -5,9 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { nanoid } from 'nanoid';
 
-function AddTaskContent() {
-
-    const [pets, setPets] = useState([]);
+function AddTaskContent({xd}) {
 
     const [types, setType] = useState([
         { id: nanoid(5), name: 'lek', checked: false },
@@ -44,7 +42,7 @@ function AddTaskContent() {
     const addTask = async () => {
         try {
             const petChoice = selectedOptions.petChoice;
-            const petId = pets.find((pet) => pet.name == petChoice).id;
+            const petId = xd.find((pet) => pet.name == petChoice).id;
             const taskData = {date: selectedDate, description, taskType: selectedOptions.taskChoice, pet: petId}
 
             const response = await fetch('http://localhost:3001/tasks', {
@@ -70,42 +68,11 @@ function AddTaskContent() {
         }
     }
 
-    useEffect(() => {
-        const getAddOptions = async () => {
-            try {
-                const response = await fetch('http://localhost:3001/pets', {
-                    method: 'GET',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
-
-                const petsData = await response.json();
-
-                const petInfo = petsData.map(pet => {
-                    return { id: pet._id, name: pet.name, checked: false };
-                })
-
-                setPets(petInfo);
-                setSelectedOptions((prev) => {
-                    let newDict = { ...prev };
-                    newDict['petChoice'] = petInfo[0].name;
-                    return newDict;
-                });
-            }
-            catch (err) {
-                console.error('Błąd po stronie serwera:', err);
-            }
-        };
-        getAddOptions();
-    }, []);
-
     return (
         <Card classes='add_task'>
             <p><b>Wybierz zwierzaka</b></p>
             <Select
-                array={pets}
+                array={xd}
                 value={selectedOptions.petChoice}
                 onChange={(e) => handleSelectChange(e, 'petChoice')} />
             <p><b>Wybierz zadanie</b></p>

@@ -3,13 +3,11 @@ import Card from '../../../../components/Card/Card';
 import CheckBoxList from '../../../../components/CheckBoxList/CheckBoxList';
 import { nanoid } from 'nanoid';
 
-function TaskContentFilters() {
+function TaskContentFilters({xd}) {
 
-    const [pets, setPets] = useState([
-        { id: nanoid(5), name: 'Olly', checked: false },
-        { id: nanoid(5), name: 'Charlie', checked: false },
-        { id: nanoid(5), name: 'Brownie', checked: false }
-    ]);
+    console.log(xd); // moze zadziala, przekazywac xd a zmieniac setPets
+
+    const [pets, setPets] = useState([]);
 
     const [types, setType] = useState([
         { id: nanoid(5), name: 'Leki', checked: false },
@@ -36,7 +34,7 @@ function TaskContentFilters() {
             <div className='select'>
                 <b>Zwierzaki</b>
                 <CheckBoxList
-                    array={pets}
+                    array={xd}
                     onChange={handleCheckboxChange}
                     setArray={setPets}
                 />
@@ -57,6 +55,7 @@ function TaskContentFilters() {
                     setArray={setDate}
                 />
             </div>
+            <button className='btn main small'>FILTRUJ</button>
         </Card>
     )
 }
