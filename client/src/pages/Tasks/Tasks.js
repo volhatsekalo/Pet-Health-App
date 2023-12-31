@@ -40,6 +40,7 @@ function Tasks() {
           }
         }));
         setTasks(tasksWithPetInfo);
+        setFilteredTasks(tasksWithPetInfo);
       } catch (err) {
         console.error('Błąd po stronie serwera:', err);
       }
@@ -50,34 +51,19 @@ function Tasks() {
 
   return (
     <div className='tasks'>
-      <TaskContentControls tasks={tasks} setTasks={setTasks} setFilteredTasks={setFilteredTasks}/>
+      <TaskContentControls tasks={tasks} setFilteredTasks={setFilteredTasks} />
       <div className='appointment_cards__container'>
         <b>Zaplanowane zadania</b>
-        {filteredTasks.length > 0 ? 
-          (filteredTasks.map((taskData) =>
-            <TaskCard
-              classes='appointment'
-              content={{
-                ...taskData
-              }}
-              setTasks={setTasks}
-              key={taskData._id}
-            />
-          ))
-         :
-        (
-          tasks.map((taskData) =>
-            <TaskCard
-              classes='appointment'
-              content={{
-                ...taskData
-              }}
-              setTasks={setTasks}
-              key={taskData._id}
-            />
-          )
-        )
-        }
+        {filteredTasks.map((taskData) =>
+          <TaskCard
+            classes='appointment'
+            content={{
+              ...taskData
+            }}
+            setTasks={setTasks}
+            key={taskData._id}
+          />
+        )}
       </div>
     </div>
   );

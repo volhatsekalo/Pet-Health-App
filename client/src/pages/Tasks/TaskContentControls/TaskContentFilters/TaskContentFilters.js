@@ -3,7 +3,7 @@ import Card from '../../../../components/Card/Card';
 import CheckBoxList from '../../../../components/CheckBoxList/CheckBoxList';
 import { nanoid } from 'nanoid';
 
-function TaskContentFilters({ props, tasks, setTasks, setFilteredTasks }) {
+function TaskContentFilters({ petsList, tasks, setFilteredTasks }) {
 
     const [pets, setPets] = useState([]);
 
@@ -11,7 +11,7 @@ function TaskContentFilters({ props, tasks, setTasks, setFilteredTasks }) {
         const getPets = async () => {
             try {
                 setPets(() => {
-                    return props;
+                    return petsList;
                 })
             }
             catch (err) {
@@ -19,7 +19,7 @@ function TaskContentFilters({ props, tasks, setTasks, setFilteredTasks }) {
             }
         };
         getPets();
-    }, [props]);
+    }, [petsList]);
 
 
     const [types, setType] = useState([
@@ -72,10 +72,14 @@ function TaskContentFilters({ props, tasks, setTasks, setFilteredTasks }) {
         selectedPets = selectedPets.length > 0 ? selectedPets.map((type) => type.name) : pets.map((type) => type.name);
         const selectedDates = dates.filter((date) => date.checked == true);
         //wzorujesz sie na tasks, a modyfikujesz filtered task
+
+        console.log(selectedTypes);
+        console.log(selectedPets);
         setFilteredTasks(() => {
             let newArray = [...tasks];
             newArray = newArray.filter((element) => selectedTypes.includes(element.taskType) && selectedPets.includes(element.petName));
             newArray = selectedDates.length > 0 ? filterTasksWithDates(newArray) : newArray;
+            console.log(newArray);
             return newArray;
         });
     }
