@@ -3,7 +3,7 @@ import Card from '../../../../components/Card/Card';
 import CheckBoxList from '../../../../components/CheckBoxList/CheckBoxList';
 import { nanoid } from 'nanoid';
 
-function TaskContentFilters({props}) {
+function TaskContentFilters({ props, tasks, setTasks, setFilteredTasks }) {
 
     const [pets, setPets] = useState([]);
 
@@ -23,9 +23,9 @@ function TaskContentFilters({props}) {
 
 
     const [types, setType] = useState([
-        { id: nanoid(5), name: 'Leki', checked: false },
-        { id: nanoid(5), name: 'Szczepienia', checked: false },
-        { id: nanoid(5), name: 'Wizyta u weterynarza', checked: false },
+        { id: nanoid(5), name: 'lek', checked: false },
+        { id: nanoid(5), name: 'szczepienie', checked: false },
+        { id: nanoid(5), name: 'wizyta u weterynarza', checked: false },
     ]);
 
     const [dates, setDate] = useState([
@@ -42,16 +42,42 @@ function TaskContentFilters({props}) {
         });
     }
 
-    const filterTasks = () => {
-        // const selectedTypes = types.filter((type) => {
-        //     type.checked == true;
-        // });
-        // const selectedPets = pets.filter((pet) => {
-        //     pet.checked == true;
-        // });
-        // const selectedDates = pets.filter((date) => {
-        //     date.checked == true;
-        // });
+    const sameDay = (date1, date2) => {
+        return date1.getFullYear() === date2.getFullYear() &&
+            date1.getMonth() === date2.getMonth() &&
+            date1.getDate() === date2.getDate();
+    }
+
+    const filterTasksWithDates = (arr) => {
+        const today = new Date();
+        let tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1);
+
+        if (dates[0].checked && dates[1].checked) {
+            return arr.filter((task) => sameDay(today, new Date(task.date)) || sameDay(tomorrow, new Date(task.date)));
+        }
+        else if (dates[0].checked) {
+            return arr.filter((task) => sameDay(today, new Date(task.date)));
+        }
+        else {
+            return arr.filter((task) => sameDay(tomorrow, new Date(task.date)));
+        }
+    }
+
+    const filterTasks = () => { 
+        let selectedTypes = types.filter((type) => type.checked == true);
+        selectedTypes = selectedTypes.length > 0 ? selectedTypes.map((type) => type.name) : types.map((type) => type.name);
+        // jesli nie ma zaznaczonych, chcemy wyswietlic wszystkie
+        let selectedPets = pets.filter((pet) => pet.checked == true);
+        selectedPets = selectedPets.length > 0 ? selectedPets.map((type) => type.name) : pets.map((type) => type.name);
+        const selectedDates = dates.filter((date) => date.checked == true);
+        //wzorujesz sie na tasks, a modyfikujesz filtered task
+        setFilteredTasks(() => {
+            let newArray = [...tasks];
+            newArray = newArray.filter((element) => selectedTypes.includes(element.taskType) && selectedPets.includes(element.petName));
+            newArray = selectedDates.length > 0 ? filterTasksWithDates(newArray) : newArray;
+            return newArray;
+        });
     }
 
     return (
@@ -80,7 +106,7 @@ function TaskContentFilters({props}) {
                     setArray={setDate}
                 />
             </div>
-            <button className='btn main small'>FILTRUJ</button>
+            <button className='btn main small' onClick={filterTasks}>FILTRUJ</button>
         </Card>
     )
 }

@@ -5,6 +5,7 @@ import TaskContentControls from './TaskContentControls/TaskContentControls';
 
 function Tasks() {
   const [tasks, setTasks] = useState([]);
+  const [filteredTasks, setFilteredTasks] = useState([]);
 
   useEffect(() => {
     const getAllTasks = async () => {
@@ -49,10 +50,22 @@ function Tasks() {
 
   return (
     <div className='tasks'>
-      <TaskContentControls />
+      <TaskContentControls tasks={tasks} setTasks={setTasks} setFilteredTasks={setFilteredTasks}/>
       <div className='appointment_cards__container'>
         <b>Zaplanowane zadania</b>
-        {
+        {filteredTasks.length > 0 ? 
+          (filteredTasks.map((taskData) =>
+            <TaskCard
+              classes='appointment'
+              content={{
+                ...taskData
+              }}
+              setTasks={setTasks}
+              key={taskData._id}
+            />
+          ))
+         :
+        (
           tasks.map((taskData) =>
             <TaskCard
               classes='appointment'
@@ -63,6 +76,7 @@ function Tasks() {
               key={taskData._id}
             />
           )
+        )
         }
       </div>
     </div>

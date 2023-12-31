@@ -3,7 +3,7 @@ import './TaskContentControls.css';
 import AddTaskContent from './AddTaskContent/AddTaskContent';
 import TaskContentFilters from './TaskContentFilters/TaskContentFilters';
 
-function TaskContentControls() {
+function TaskContentControls({tasks, setTasks, setFilteredTasks}) {
 
     const [pets, setPets] = useState([]);
 
@@ -40,7 +40,7 @@ function TaskContentControls() {
             <p><b>Dodaj zadanie</b></p>
             <AddTaskContent props={pets} />
             <p><b>Filtry</b></p>
-            <TaskContentFilters props={pets} />
+            <TaskContentFilters props={pets} tasks={tasks} setTasks={setTasks} setFilteredTasks={setFilteredTasks}/>
         </div>
     )
 }
