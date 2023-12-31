@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Card from '../../../../components/Card/Card';
 import Select from '../../../../components/Select/Select';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { nanoid } from 'nanoid';
 
-function AddTaskContent({xd}) {
+function AddTaskContent({props}) {
 
     const [types, setType] = useState([
         { id: nanoid(5), name: 'lek', checked: false },
@@ -41,8 +41,8 @@ function AddTaskContent({xd}) {
 
     const addTask = async () => {
         try {
-            const petChoice = selectedOptions.petChoice;
-            const petId = xd.find((pet) => pet.name == petChoice).id;
+            const petChoice = selectedOptions.petChoice ? selectedOptions.petChoice : props[0].name;
+            const petId = props.find((pet) => pet.name === petChoice).id;
             const taskData = {date: selectedDate, description, taskType: selectedOptions.taskChoice, pet: petId}
 
             const response = await fetch('http://localhost:3001/tasks', {
@@ -55,8 +55,6 @@ function AddTaskContent({xd}) {
             });
 
             const result = await response.json();
-
-            console.log(result);
 
             window.location.reload();
 
@@ -72,7 +70,7 @@ function AddTaskContent({xd}) {
         <Card classes='add_task'>
             <p><b>Wybierz zwierzaka</b></p>
             <Select
-                array={xd}
+                array={props}
                 value={selectedOptions.petChoice}
                 onChange={(e) => handleSelectChange(e, 'petChoice')} />
             <p><b>Wybierz zadanie</b></p>

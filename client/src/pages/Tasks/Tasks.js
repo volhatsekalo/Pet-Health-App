@@ -17,7 +17,6 @@ function Tasks() {
           }
         });
         const data = await response.json();
-        console.log(data);
         const sortedTasks = data.sort((a, b) => new Date(a.date) - new Date(b.date));
 
         const tasksWithPetInfo = await Promise.all(sortedTasks.map(async task => {

@@ -5,7 +5,7 @@ import TaskContentFilters from './TaskContentFilters/TaskContentFilters';
 
 function TaskContentControls() {
 
-    const [xd, setXd] = useState([]);
+    const [pets, setPets] = useState([]);
 
     useEffect(() => {
         const getPets = async () => {
@@ -24,7 +24,9 @@ function TaskContentControls() {
                     return { id: pet._id, name: pet.name, checked: false };
                 })
 
-                setXd(petInfo);
+                setPets(() => {
+                    return petInfo;
+                });
             }
             catch (err) {
                 console.error('Błąd po stronie serwera:', err);
@@ -36,9 +38,9 @@ function TaskContentControls() {
     return (
         <div className='filters__container'>
             <p><b>Dodaj zadanie</b></p>
-            <AddTaskContent xd={xd}/>
+            <AddTaskContent props={pets} />
             <p><b>Filtry</b></p>
-            <TaskContentFilters  xd={xd}/>
+            <TaskContentFilters props={pets} />
         </div>
     )
 }

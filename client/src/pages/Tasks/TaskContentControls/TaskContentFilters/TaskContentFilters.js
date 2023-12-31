@@ -1,13 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '../../../../components/Card/Card';
 import CheckBoxList from '../../../../components/CheckBoxList/CheckBoxList';
 import { nanoid } from 'nanoid';
 
-function TaskContentFilters({xd}) {
-
-    console.log(xd); // moze zadziala, przekazywac xd a zmieniac setPets
+function TaskContentFilters({props}) {
 
     const [pets, setPets] = useState([]);
+
+    useEffect(() => {
+        const getPets = async () => {
+            try {
+                setPets(() => {
+                    return props;
+                })
+            }
+            catch (err) {
+                console.error('Błąd po stronie serwera:', err);
+            }
+        };
+        getPets();
+    }, [props]);
+
 
     const [types, setType] = useState([
         { id: nanoid(5), name: 'Leki', checked: false },
@@ -29,12 +42,24 @@ function TaskContentFilters({xd}) {
         });
     }
 
+    const filterTasks = () => {
+        // const selectedTypes = types.filter((type) => {
+        //     type.checked == true;
+        // });
+        // const selectedPets = pets.filter((pet) => {
+        //     pet.checked == true;
+        // });
+        // const selectedDates = pets.filter((date) => {
+        //     date.checked == true;
+        // });
+    }
+
     return (
         <Card classes='filters'>
             <div className='select'>
                 <b>Zwierzaki</b>
                 <CheckBoxList
-                    array={xd}
+                    array={pets}
                     onChange={handleCheckboxChange}
                     setArray={setPets}
                 />
