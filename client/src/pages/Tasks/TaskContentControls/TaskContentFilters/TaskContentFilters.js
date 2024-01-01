@@ -67,19 +67,14 @@ function TaskContentFilters({ petsList, tasks, setFilteredTasks }) {
     const filterTasks = () => { 
         let selectedTypes = types.filter((type) => type.checked == true);
         selectedTypes = selectedTypes.length > 0 ? selectedTypes.map((type) => type.name) : types.map((type) => type.name);
-        // jesli nie ma zaznaczonych, chcemy wyswietlic wszystkie
         let selectedPets = pets.filter((pet) => pet.checked == true);
         selectedPets = selectedPets.length > 0 ? selectedPets.map((type) => type.name) : pets.map((type) => type.name);
         const selectedDates = dates.filter((date) => date.checked == true);
-        //wzorujesz sie na tasks, a modyfikujesz filtered task
 
-        console.log(selectedTypes);
-        console.log(selectedPets);
         setFilteredTasks(() => {
             let newArray = [...tasks];
             newArray = newArray.filter((element) => selectedTypes.includes(element.taskType) && selectedPets.includes(element.petName));
             newArray = selectedDates.length > 0 ? filterTasksWithDates(newArray) : newArray;
-            console.log(newArray);
             return newArray;
         });
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import './App.css';
 import Home from './pages/Home/Home';
@@ -7,29 +7,72 @@ import Pets from './pages/Pets/Pets';
 import Tasks from './pages/Tasks/Tasks';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
+export const AuthContext = createContext();
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/users/getInfo', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+        
+        if (response.ok){
+          setIsLoggedIn(true);
+        }
+
+      } catch (err) {
+        console.error('Błąd po stronie serwera:', err);
+      }
+    };
+    checkAuth();
+  }, []);
 
   return (
-    <div className='app__container'>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path='/' element={isLoggedIn ? <Tasks /> : <Home />} />
-          <Route path='/konto' element={<MyAccount />} />
-          <Route path='/zadania' element={<Tasks />} />
-          <Route path='/zwierzeta' element={<Pets />} />
-          <Route path='*' element={
-            isLoggedIn ? (
-              <Navigate replace to="/zadania" />
-            ) : (
-              <Navigate replace to="/" />
-            )
-          } />
-        </Routes>
-      </Router>
-    </div>
+    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+      <div className='app__container'>
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path='/' element={isLoggedIn ? <Tasks /> : <Home />} />
+            <Route path='/konto' element={
+              isLoggedIn ? (
+                <MyAccount />
+              ) : (
+                <Navigate replace to="/" />
+              )
+            } />
+            <Route path='/zadania' element={
+              isLoggedIn ? (
+                <Tasks />
+              ) : (
+                <Navigate replace to="/" />
+              )
+            } />
+            <Route path='/zwierzeta' element={
+              isLoggedIn ? (
+                <Pets />
+              ) : (
+                <Navigate replace to="/" />
+              )
+            } />
+            <Route path='*' element={
+              isLoggedIn ? (
+                <Navigate replace to="/zadania" />
+              ) : (
+                <Navigate replace to="/" />
+              )
+            } />
+          </Routes>
+        </Router>
+      </div>
+    </AuthContext.Provider>
   );
 }
 

@@ -9,8 +9,5 @@
     },
     "keywords": [],
     "author": "Volha Tsekalo",
-    "license": "ISC",
-    "dependencies": {
-        "react-confirm-alert": "^3.0.6"
-    }
+    "license": "ISC"
 }

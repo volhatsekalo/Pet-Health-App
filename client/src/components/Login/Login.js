@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../../App.js';
 import './Login.css';
 
 function LoginForm({ openRegistration, onRequestClose }) {
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const [loginMessage, setLoginMessage] = useState('');
   const [loginMessageState, setLoginMessageState] = useState('green');
 
@@ -20,6 +22,7 @@ function LoginForm({ openRegistration, onRequestClose }) {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    console.log("submit");
     try {
       const response = await fetch('http://localhost:3001/users/login', {
         method: 'POST',
@@ -37,11 +40,12 @@ function LoginForm({ openRegistration, onRequestClose }) {
 
         const oneMonthInSeconds = 24 * 60 * 60 * 30; // 30 dni
         document.cookie = `accessToken=${result.token}; Secure; SameSite=None;  max-age=${oneMonthInSeconds}`;
-
-        setTimeout(() => {
-          window.location.href = '/'; 
-        }, 500);
-
+        console.log(isLoggedIn); 
+        setIsLoggedIn(true);
+        // setTimeout(() => {
+        //   window.location.href = '/'; 
+        // }, 500);
+        console.log(isLoggedIn);        
         console.log('Użytkownik zalogowany pomyślnie!');
       }
 

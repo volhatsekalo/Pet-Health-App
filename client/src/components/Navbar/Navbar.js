@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext} from 'react';
+import { AuthContext } from '../../App.js';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import RegistrationWindow from '../RegistrationWindow/RegistrationWindow.js';
 import LoginWindow from '../LoginWindow/LoginWindow.js';
-import logo from "../../assets/petcare.png";
+import logo from "../../assets/petlogo2.png";
 import home from "../../assets/home.png";
 import login from "../../assets/login.png";
 import register from "../../assets/register.png";
@@ -12,9 +13,13 @@ import tasks from "../../assets/tasks.png"
 import './Navbar.css';
 
 function Navbar() {
+
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);  
+
   const [isLModalOpen, setIsLModalOpen] = useState(false);
   const [isRModalOpen, setIsRModalOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // console.log(isLoggedIn);
 
   let navigate = useNavigate();
 
@@ -53,14 +58,6 @@ function Navbar() {
                 alt=""
               />
             </li>
-            {/* <li className='navbar__item'>
-              <Link
-                to='/kalendarz'
-                className='navbar__link'
-              >
-                STATYSTYKI
-              </Link>
-            </li> */}
             <li className='navbar__item'>
               <Link
                 to='/zwierzeta'
@@ -127,8 +124,8 @@ function Navbar() {
                   alt=""
                 />
               </li>
-              <LoginWindow isOpen={isLModalOpen} onRequestClose={() => setIsLModalOpen(false)} openRegistration={() => setIsRModalOpen(true)} />
-              <RegistrationWindow isOpen={isRModalOpen} onRequestClose={() => setIsRModalOpen(false)} openLogin={() => setIsLModalOpen(true)}/>
+              <LoginWindow isOpen={isLModalOpen} onRequestClose={() => setIsLModalOpen(false)} openRegistration={() => setIsRModalOpen(true)}/>
+              <RegistrationWindow isOpen={isRModalOpen} onRequestClose={() => setIsRModalOpen(false)} openLogin={() => setIsLModalOpen(true)} />
             </ul>
           )}
       </nav>
