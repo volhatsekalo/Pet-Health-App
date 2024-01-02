@@ -11,8 +11,8 @@ const MyAccount = ({ userData }) => {
   const { email, username, _id } = userData;
 
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-  const [passwordChangeMessage, setPasswordChangeMessage] = useState('');
-  const [passwordChangeMessageState, setPasswordChangeMessageState] = useState('green');
+  const [message, setMessage] = useState('');
+  const [messageState, setMessageState] = useState('green');
   const [image, setImage] = useState(avatarTemplate);
   const [edit, setEdit] = useState(false);
   const [data, setData] = useState({
@@ -34,7 +34,25 @@ const MyAccount = ({ userData }) => {
     setEdit(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    const response = await fetch('http://localhost:3001/users/changeinfo', {
+      method: 'PUT',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username: data.name, email: data.email })
+    });
+
+    const json = await response.json();
+
+    if (response.ok) {
+      setMessageState('green');
+    }
+    else {
+      setMessageState('red');
+    }
+    setMessage(json.message);
     setEdit(false);
   };
 
@@ -65,12 +83,12 @@ const MyAccount = ({ userData }) => {
       const json = await response.json();
 
       if (response.ok) {
-        setPasswordChangeMessageState('green');
+        setMessageState('green');
       }
       else {
-        setPasswordChangeMessageState('red');
+        setMessageState('red');
       }
-      setPasswordChangeMessage(json.message);
+      setMessage(json.message);
     }
     catch (err) {
       console.error('Błąd po stronie serwera:', err);
@@ -155,8 +173,8 @@ const MyAccount = ({ userData }) => {
             />
           </div>
           <button className='btn main small' onClick={changePassword}>ZMIEŃ HASŁO</button>
-          <p className={passwordChangeMessageState}>
-            {passwordChangeMessage}
+          <p className={messageState}>
+            {message}
           </p>
         </div>
         <div className='myaccount__logout btn border' onClick={logout}>WYLOGUJ</div>

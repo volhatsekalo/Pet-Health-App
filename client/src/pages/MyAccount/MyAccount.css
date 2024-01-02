@@ -118,6 +118,7 @@
 .myaccount__passwordchange > button {
   display: block;
   width: 30%;
+  margin-bottom: 8px;
 }
 
 .myaccount__passwordchange__name {

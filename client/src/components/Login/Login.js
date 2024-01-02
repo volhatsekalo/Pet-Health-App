@@ -42,11 +42,11 @@ function LoginForm({ openRegistration, onRequestClose }) {
         console.log('Użytkownik zalogowany pomyślnie!');
         
         setTimeout(() => {
+            // dwa razy sie aktualizuje
           setIsLoggedIn(true);
+          window.location.href = '/';
           onRequestClose();
-          // window.location.href = '/'; 
         }, 500);
-        console.log(isLoggedIn);        
       }
 
       else {

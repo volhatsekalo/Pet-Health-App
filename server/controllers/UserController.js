@@ -98,7 +98,7 @@ export const changePassword = async (req, res) => {
                     return res.status(404).json({ message: 'Nie udało się zaktualizować hasła' });
                 }
                 else {
-                    return res.status(200).json({ message: "Zaktualizowano hasło"})
+                    return res.status(200).json({ message: "Zaktualizowano hasło" })
                 }
             })
     }
@@ -106,5 +106,34 @@ export const changePassword = async (req, res) => {
         return res.status(500).json({
             message: 'Wystąpił błąd podczas zmiany hasła',
         });
+    }
+}
+
+export const changeUserInfo = async (req, res) => {
+    try {
+        const { username, email } = req.body;
+
+        await User.findOne({ email })
+            .then(emailExists => {
+                if (!emailExists) {
+                    return res.status(404).json({ message: 'Użytkownik o podanym email nie istnieje' });
+                }
+            })
+
+        await User.findByIdAndUpdate(req.userId, { username, email }, { new: true })
+            .then(updatedUser => {
+                if (!updatedUser) {
+                    return res.status(404).json({ message: 'Nie znaleziono użytkownika o podanym ID' });
+                }
+                else {
+                    return res.status(200).json({
+                        message: 'Dane użytkownika zostały pomyślnie zaktualizowane',
+                        updatedUser
+                    });
+                }
+            })
+    }
+    catch (err) {
+        return res.status(500).json({ message: 'Nie udało się zaktualizować danych użytkownika' });
     }
 }
