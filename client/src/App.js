@@ -12,18 +12,22 @@ export const AuthContext = createContext();
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const [userData, setUserData] = useState('');
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch('http://localhost:3001/users/getInfo', {
+        const response = await fetch('http://localhost:3001/users/getinfo', {
           method: 'GET',
           credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
           }
         });
-        
+
         if (response.ok){
+          const json = await response.json();
+          setUserData(json);
           setIsLoggedIn(true);
         }
 
@@ -43,7 +47,7 @@ function App() {
             <Route path='/' element={isLoggedIn ? <Tasks /> : <Home />} />
             <Route path='/konto' element={
               isLoggedIn ? (
-                <MyAccount />
+                <MyAccount userData={userData}/>
               ) : (
                 <Navigate replace to="/" />
               )

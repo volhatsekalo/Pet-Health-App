@@ -22,7 +22,6 @@ function LoginForm({ openRegistration, onRequestClose }) {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log("submit");
     try {
       const response = await fetch('http://localhost:3001/users/login', {
         method: 'POST',
@@ -40,13 +39,14 @@ function LoginForm({ openRegistration, onRequestClose }) {
 
         const oneMonthInSeconds = 24 * 60 * 60 * 30; // 30 dni
         document.cookie = `accessToken=${result.token}; Secure; SameSite=None;  max-age=${oneMonthInSeconds}`;
-        console.log(isLoggedIn); 
-        setIsLoggedIn(true);
-        // setTimeout(() => {
-        //   window.location.href = '/'; 
-        // }, 500);
-        console.log(isLoggedIn);        
         console.log('Użytkownik zalogowany pomyślnie!');
+        
+        setTimeout(() => {
+          setIsLoggedIn(true);
+          onRequestClose();
+          // window.location.href = '/'; 
+        }, 500);
+        console.log(isLoggedIn);        
       }
 
       else {

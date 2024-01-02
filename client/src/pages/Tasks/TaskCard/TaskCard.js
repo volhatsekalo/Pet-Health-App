@@ -1,6 +1,6 @@
 import Card from '../../../components/Card/Card';
 import close from "../../../assets/close.png";
-import image from "../../../assets/kot.png"
+import image from "../../../assets/pettemplate.jpg"
 import './TaskCard.css';
 
 import { confirmAlert } from 'react-confirm-alert';

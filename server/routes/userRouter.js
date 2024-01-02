@@ -1,12 +1,13 @@
 import { Router } from 'express';
 const router = Router();
-import { login, register, getUserInfo } from '../controllers/UserController.js';
+import { login, register, getUserInfo, changePassword } from '../controllers/UserController.js';
 import { verifyToken } from '../middlewares/authMiddleware.js';
 import { validateRegistration, validateLogin } from '../validators/validators.js'
 import { errorHandlingForValidation } from '../validators/errorHandlingForValidation.js';
 
 router.post('/register', validateRegistration, errorHandlingForValidation, register);
 router.post('/login', validateLogin, errorHandlingForValidation, login);
-router.get('/getInfo', verifyToken, getUserInfo);
+router.get('/getinfo', verifyToken, getUserInfo);
+router.put('/changepassword', verifyToken, changePassword);
 
 export default router;

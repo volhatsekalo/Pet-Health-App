@@ -1,27 +1,34 @@
 import React from 'react';
-import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import avatar2 from "../../assets/avatar2.png";
+import { useState, useContext, useEffect } from 'react';
+import { AuthContext } from '../../App.js';
+import avatarTemplate from "../../assets/avatar2.png";
 import pencil from "../../assets/pencil.png";
 
 import './MyAccount.css';
 
-const MyAccount = () => {
-  //    WYLOGUJ POWINNO PRZENOSIC NA STRONE GLOWNĄ I ZMIENIAĆ ZMIENNĄ ISLOGGEDIN
-  const [image, setImage] = useState(avatar2);
-  const [data, setData] = useState({
-    name: 'Olga Tiekało',
-    email: 'olgatiekalo@gmail.com',
-  });
+const MyAccount = ({ userData }) => {
+
+  const { email, username, _id } = userData;
+
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const [passwordChangeMessage, setPasswordChangeMessage] = useState('');
+  const [passwordChangeMessageState, setPasswordChangeMessageState] = useState('green');
+  const [image, setImage] = useState(avatarTemplate);
   const [edit, setEdit] = useState(false);
+  const [data, setData] = useState({
+    name: username,
+    email: email,
+  });
+
+  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+
 
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
     const imageUrl = URL.createObjectURL(selectedImage);
     setImage(imageUrl);
   };
-
-  let navigate = useNavigate();
 
   const handleEdit = () => {
     setEdit(true);
@@ -38,6 +45,37 @@ const MyAccount = () => {
       [name]: value,
     });
   };
+
+  const logout = () => {
+    document.cookie = 'accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    setIsLoggedIn(false);
+  }
+
+  const changePassword = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/users/changepassword', {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...data, password, newPassword })
+      });
+
+      const json = await response.json();
+
+      if (response.ok) {
+        setPasswordChangeMessageState('green');
+      }
+      else {
+        setPasswordChangeMessageState('red');
+      }
+      setPasswordChangeMessage(json.message);
+    }
+    catch (err) {
+      console.error('Błąd po stronie serwera:', err);
+    }
+  }
 
   return (
     <div className='myaccount__container'>
@@ -60,7 +98,7 @@ const MyAccount = () => {
           <div className='myaccount__info'>
             <div>
               <label>
-                Imię
+                Nazwa użytkownika
               </label>
               {edit ? (
                 <input
@@ -103,23 +141,25 @@ const MyAccount = () => {
           <div className='myaccount__passwordchange__inputs'>
             <input
               type="password"
-              name="password"
               placeholder="Aktualne hasło"
-              // onChange={handleInputChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="myaccount__input"
             />
             <input
               type="password"
-              name="password"
               placeholder="Nowe hasło"
-              // onChange={handleInputChange}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
               className="myaccount__input"
             />
           </div>
-          <button className='btn main small'>ZMIEŃ HASŁO</button>
+          <button className='btn main small' onClick={changePassword}>ZMIEŃ HASŁO</button>
+          <p className={passwordChangeMessageState}>
+            {passwordChangeMessage}
+          </p>
         </div>
-        <div className='myaccount__logout btn border' onClick={() => navigate("/")}>WYLOGUJ</div>
-        {/* <div className='myaccount__delete' onClick={() => navigate("/")}>Usuń konto</div> */}
+        <div className='myaccount__logout btn border' onClick={logout}>WYLOGUJ</div>
       </div>
     </div>
   );
