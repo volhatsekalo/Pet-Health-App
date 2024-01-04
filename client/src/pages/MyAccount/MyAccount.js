@@ -6,15 +6,17 @@ import pencil from "../../assets/pencil.png";
 
 import './MyAccount.css';
 
-const MyAccount = ({ userData }) => {
+const MyAccount = ({ userData, setUserData }) => {
+  const { email, username, userAvatarUrl } = userData;
 
-  const { email, username, _id } = userData;
+  console.log(userData);
 
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const [message, setMessage] = useState('');
   const [messageState, setMessageState] = useState('green');
-  const [image, setImage] = useState(avatarTemplate);
+  const [image, setImage] = useState(userAvatarUrl);
   const [edit, setEdit] = useState(false);
+  console.log(username);
   const [data, setData] = useState({
     name: username,
     email: email,
@@ -23,11 +25,53 @@ const MyAccount = ({ userData }) => {
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
-
-  const handleImageChange = (e) => {
+  const changeAvatar = async (e) => {
     const selectedImage = e.target.files[0];
-    const imageUrl = URL.createObjectURL(selectedImage);
-    setImage(imageUrl);
+    const formData = new FormData();
+    formData.append('file', selectedImage);
+
+    try {
+      const response = await fetch('http://localhost:3001/upload', {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        setMessageState('red');
+        setMessage("Zmiana zdjęcia nie powiodła się");
+        return;
+      }
+
+      const { url } = await response.json();
+
+      const updatedUser = await fetch('http://localhost:3001/users/changeinfo', {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email, userAvatarUrl: url }),
+      });
+
+      if (updatedUser.ok) {
+        setImage(() => { return url });
+        setUserData((prev) => {
+          const newData = { ...prev };
+          console.log(newData)
+          newData.userAvatarUrl = url;
+          console.log(newData);
+          return newData;
+        })
+      }
+      else {
+        setMessageState('red');
+        setMessage("Zmiana zdjęcia nie powiodła się");
+      }
+
+    } catch (error) {
+      console.error('Wystąpił błąd:', error);
+    }
   };
 
   const handleEdit = () => {
@@ -41,7 +85,7 @@ const MyAccount = ({ userData }) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username: data.name, email: data.email })
+      body: JSON.stringify({ username: data.name, email: data.email, userAvatarUrl: image })
     });
 
     const json = await response.json();
@@ -95,6 +139,8 @@ const MyAccount = ({ userData }) => {
     }
   }
 
+  // useEffect(() => { }, [userData, isLoggedIn]);
+
   return (
     <div className='myaccount__container'>
       <div className="myaccount">
@@ -102,7 +148,7 @@ const MyAccount = ({ userData }) => {
         <div className='myaccount__data'>
           <div className='myaccount__avatar'>
             <img
-              src={image}
+              src={userAvatarUrl ? `http://localhost:3001${image}` : avatarTemplate}
               alt=""
             />
             <label htmlFor="file-upload" className="myaccount__avatar__change">
@@ -111,7 +157,7 @@ const MyAccount = ({ userData }) => {
                 alt=""
               />
             </label>
-            <input id="file-upload" type="file" onChange={handleImageChange} />
+            <input id="file-upload" type="file" onChange={changeAvatar} />
           </div>
           <div className='myaccount__info'>
             <div>

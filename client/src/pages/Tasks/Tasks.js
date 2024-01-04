@@ -30,10 +30,11 @@ function Tasks() {
               }
             });
             const petData = await petResponse.json();
+            console.log(petData);
             const petName = petData.pet.name;
             const petId = petData.pet._id;
-            const petImage = petData.pet.petAvatarUrl;
-            return { ...task, petName, petId };
+            const petAvatarUrl = petData.pet.petAvatarUrl;
+            return { ...task, petName, petId, petAvatarUrl };
           } catch (error) {
             console.error('Błąd przy pobieraniu informacji o zwierzaku:', error);
             return task;
@@ -61,6 +62,7 @@ function Tasks() {
               ...taskData
             }}
             setTasks={setTasks}
+            setFilteredTasks={setFilteredTasks}
             key={taskData._id}
           />
         )}

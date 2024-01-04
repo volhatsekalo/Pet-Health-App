@@ -10,11 +10,14 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 export const AuthContext = createContext();
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+  console.log(isLoggedIn);
 
   const [userData, setUserData] = useState('');
 
   useEffect(() => {
+    console.log("XDDDDD");
     const checkAuth = async () => {
       try {
         const response = await fetch('http://localhost:3001/users/getinfo', {
@@ -29,6 +32,10 @@ function App() {
           const json = await response.json();
           setUserData(json);
           setIsLoggedIn(true);
+        }
+
+        else {
+          setIsLoggedIn(false);
         }
 
       } catch (err) {
@@ -47,7 +54,7 @@ function App() {
             <Route path='/' element={isLoggedIn ? <Tasks /> : <Home />} />
             <Route path='/konto' element={
               isLoggedIn ? (
-                <MyAccount userData={userData}/>
+                <MyAccount userData={userData} setUserData={setUserData}/>
               ) : (
                 <Navigate replace to="/" />
               )

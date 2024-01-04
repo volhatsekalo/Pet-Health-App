@@ -29,8 +29,8 @@ function TaskContentFilters({ petsList, tasks, setFilteredTasks }) {
     ]);
 
     const [dates, setDate] = useState([
-        { id: nanoid(5), name: 'Dziś', checked: false },
-        { id: nanoid(5), name: 'Jutro', checked: false },
+        { id: nanoid(5), name: 'dziś', checked: false },
+        { id: nanoid(5), name: 'jutro', checked: false },
     ]);
 
     const handleCheckboxChange = (id, setArray) => {

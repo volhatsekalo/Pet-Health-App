@@ -6,9 +6,9 @@ import './TaskCard.css';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-const TaskCard = ({ classes, content, setTasks }) => {
-  const { taskType, date, description, pet, petName, _id } = content;
-
+const TaskCard = ({ classes, content, setTasks, setFilteredTasks }) => {
+  const { taskType, date, description, pet, petName, petAvatarUrl, _id } = content;
+  console.log(petAvatarUrl);
   const today = new Date();
   const taskdate = new Date(date);
 
@@ -69,6 +69,7 @@ const TaskCard = ({ classes, content, setTasks }) => {
               setTasks((prev) => {
                 let newArray = [...prev];
                 newArray = newArray.filter((task) => task._id != _id);
+                setFilteredTasks(() => { return newArray });
                 return newArray;
               });
             }
@@ -86,10 +87,16 @@ const TaskCard = ({ classes, content, setTasks }) => {
     }
   }
 
+  // useEffect(() => {
+  //   const xd = async () => {
+  //   };
+  //   xd();
+  // }, [userData, isLoggedIn]);
+
   return (
     <Card classes={classes}>
       <img className="close_logo" src={close} alt="close" onClick={deleteTask} />
-      <img src={image} alt={`${petName}-appointment`} className='photo' />
+      <img src={petAvatarUrl ? `http://localhost:3001${petAvatarUrl}` : image} alt={`${petName}-appointment`} className='photo' />
       <div className='text_container'>
         <h3>{petName}</h3>
         <p><b>Typ: </b>{taskType}</p>
