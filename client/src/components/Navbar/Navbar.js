@@ -19,8 +19,6 @@ function Navbar() {
   const [isLModalOpen, setIsLModalOpen] = useState(false);
   const [isRModalOpen, setIsRModalOpen] = useState(false);
 
-  // console.log(isLoggedIn);
-
   let navigate = useNavigate();
 
   const [color, setColor] = useState(false);

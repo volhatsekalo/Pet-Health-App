@@ -17,7 +17,6 @@ function App() {
   const [userData, setUserData] = useState('');
 
   useEffect(() => {
-    console.log("XDDDDD");
     const checkAuth = async () => {
       try {
         const response = await fetch('http://localhost:3001/users/getinfo', {
