@@ -2,10 +2,16 @@ import React, { useState } from 'react';
 import Card from '../../../../components/Card/Card';
 import Select from '../../../../components/Select/Select';
 import DatePicker from 'react-datepicker';
+import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import pl from 'date-fns/locale/pl';
 import 'react-datepicker/dist/react-datepicker.css';
 import { nanoid } from 'nanoid';
+registerLocale('pl', pl)
+setDefaultLocale('pl');
 
 function AddTaskContent({petsList}) {
+
+    const today = new Date();
 
     const [types, setType] = useState([
         { id: nanoid(5), name: 'lek', checked: false },
@@ -81,12 +87,14 @@ function AddTaskContent({petsList}) {
             <p><b>Wybierz datę</b></p>
             <DatePicker
                 className='datepicker'
+                locale="pl"
+                minDate={today}
                 selected={selectedDate}
                 onChange={handleDateChange}
                 showTimeSelect
                 timeFormat="HH:mm"
                 timeIntervals={15}
-                dateFormat="MMMM d, yyyy h:mm aa"
+                dateFormat="dd/MM/yyyy HH:mm"
                 placeholderText="Wybierz datę i godzinę"
             />
             <p><b>Dodaj opis</b></p>
