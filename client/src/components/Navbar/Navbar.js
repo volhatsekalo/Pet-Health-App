@@ -12,12 +12,11 @@ import pet from "../../assets/pet.png"
 import tasks from "../../assets/tasks.png"
 import './Navbar.css';
 
-function Navbar() {
+function Navbar({ isRModalOpen, setIsRModalOpen}) {
 
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);  
 
   const [isLModalOpen, setIsLModalOpen] = useState(false);
-  const [isRModalOpen, setIsRModalOpen] = useState(false);
 
   let navigate = useNavigate();
 

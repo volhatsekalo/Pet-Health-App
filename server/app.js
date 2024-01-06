@@ -28,6 +28,7 @@ mongoose.connect(mongoUrl)
     })
 
 app.use("/upload", uploadRouter);
+app.use('/uploads', express.static('uploads'));
 app.use("/pets", petsRouter);
 app.use("/users", usersRouter);
 app.use("/tasks", tasksRouter);

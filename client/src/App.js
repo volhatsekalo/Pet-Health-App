@@ -12,7 +12,7 @@ export const AuthContext = createContext();
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-  console.log(isLoggedIn);
+  const [isRModalOpen, setIsRModalOpen] = useState(false);
 
   const [userData, setUserData] = useState('');
 
@@ -48,9 +48,9 @@ function App() {
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
       <div className='app__container'>
         <Router>
-          <Navbar />
+          <Navbar isRModalOpen={isRModalOpen} setIsRModalOpen={setIsRModalOpen}/>
           <Routes>
-            <Route path='/' element={isLoggedIn ? <Tasks /> : <Home />} />
+            <Route path='/' element={isLoggedIn ? <Tasks /> : <Home setIsRModalOpen={setIsRModalOpen}/>} />
             <Route path='/konto' element={
               isLoggedIn ? (
                 <MyAccount userData={userData} setUserData={setUserData}/>
