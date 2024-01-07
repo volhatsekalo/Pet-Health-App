@@ -102,7 +102,7 @@ const TaskCard = ({ classes, content, setTasks, setFilteredTasks }) => {
         <p><b>Typ: </b>{taskType}</p>
         <p><b>Opis: </b>{description}</p>
       </div>
-      <div className='appointment__date'>
+      <div className='task__date'>
         <p><b>{formateDate()}</b></p>
         <p><b>{formateTime()}</b></p>
       </div>

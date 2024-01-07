@@ -53,11 +53,11 @@ function Tasks() {
   return (
     <div className='tasks'>
       <TaskContentControls tasks={tasks} setFilteredTasks={setFilteredTasks} />
-      <div className='appointment_cards__container'>
+      <div className='task_cards__container'>
         <b>Zaplanowane zadania</b>
         {filteredTasks.map((taskData) =>
           <TaskCard
-            classes='appointment'
+            classes='task'
             content={{
               ...taskData
             }}

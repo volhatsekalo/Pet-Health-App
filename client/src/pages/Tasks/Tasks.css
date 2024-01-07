@@ -8,7 +8,7 @@
     justify-content: center;
 }
 
-.appointment_cards__container {
+.task_cards__container {
     display: flex;
     flex-direction: column;
     align-items: center;

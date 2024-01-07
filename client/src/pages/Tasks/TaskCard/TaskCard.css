@@ -1,26 +1,22 @@
-.card__appointment {
+.card__task {
   display: flex;
   position: relative;
   gap: 20px;
   width: 70%;
 }
 
-.card__appointment .photo {
+.card__task .photo {
   width: 100px;
   height: 100px;
   border-radius: 50%;
 }
 
-.card__appointment .text_container {
+.card__task .text_container {
   width: 240px;
   display: flex;
   gap: 5px;
   justify-content: center;
   flex-direction: column;
-}
-
-.card__appointment h3 {
-  text-transform: capitalize;
 }
 
 .counter_container {
@@ -31,12 +27,12 @@
   width: 10%;
 }
 
-.appointment__date {
+.task__date {
   position: absolute;
   right: 1.4rem;
 }
 
-.appointment__date > p {
+.task__date > p {
   text-align: right;
 }
 
