@@ -3,9 +3,10 @@ import Pet from '../models/Pet.js';
 export const getAllPets = async (req, res) => {
     try {
         const pets = await Pet.find({ user: req.userId });
-        res.status(200).json(pets);
+        return res.status(200).json(pets);
     }
     catch (err) {
+        console.log(err);
         res.status(500).json({
             message: 'Nie udało się pobrać listy zwierząt',
         });

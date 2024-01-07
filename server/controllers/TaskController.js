@@ -2,7 +2,7 @@ import Task from '../models/Task.js';
 
 export const getAllTasks = async (req, res) => {
     try {
-        const tasks = await Task.find();
+        const tasks = await Task.find({ user: req.userId });
         return res.status(200).json(tasks);
     }
     catch (err) {
@@ -22,11 +22,12 @@ export const createTask = async (req, res) => {
             description,
             date,
             pet,
+            user: req.userId
         });
 
         await task.save();
 
-        return res.status(200).json({ task });
+        return res.status(200).json({ ...task, user: req.userId });
     }
     catch (err) {
         return res.status(500).json({
