@@ -9,8 +9,6 @@ import './MyAccount.css';
 const MyAccount = ({ userData, setUserData }) => {
   const { email, username, userAvatarUrl } = userData;
 
-  console.log(userData);
-
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const [message, setMessage] = useState('');
   const [messageState, setMessageState] = useState('green');
@@ -139,7 +137,11 @@ const MyAccount = ({ userData, setUserData }) => {
     }
   }
 
-  // useEffect(() => { }, [userData, isLoggedIn]);
+  useEffect(() => {
+    setData(() => {return {name: userData.username, email: userData.email}});
+    setImage(() => {return userData.userAvatarUrl});
+    console.log(userAvatarUrl);
+  }, [userData]);
 
   return (
     <div className='myaccount__container'>

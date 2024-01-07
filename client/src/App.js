@@ -10,14 +10,14 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 export const AuthContext = createContext();
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [isRModalOpen, setIsRModalOpen] = useState(false);
 
   const [userData, setUserData] = useState('');
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const getUserData = async () => {
       try {
         const response = await fetch('http://localhost:3001/users/getinfo', {
           method: 'GET',
@@ -27,33 +27,56 @@ function App() {
           }
         });
 
-        if (response.ok){
+        if (response.ok) {
           const json = await response.json();
           setUserData(json);
           setIsLoggedIn(true);
         }
 
-        else {
-          setIsLoggedIn(false);
-        }
+        // else {
+        //   setIsLoggedIn(false);
+        // }
 
       } catch (err) {
         console.error('Błąd po stronie serwera:', err);
       }
     };
-    checkAuth();
+    getUserData();
   }, []);
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/users/getinfo', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        if (response.ok) {
+          const json = await response.json();
+          setUserData(json);
+        }
+      }
+      catch (err) {
+        console.error('Błąd po stronie serwera:', err);
+      }
+    };
+    getUserData();
+  }, [isLoggedIn]);
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
       <div className='app__container'>
         <Router>
-          <Navbar isRModalOpen={isRModalOpen} setIsRModalOpen={setIsRModalOpen}/>
+          <Navbar isRModalOpen={isRModalOpen} setIsRModalOpen={setIsRModalOpen} />
           <Routes>
-            <Route path='/' element={isLoggedIn ? <Tasks /> : <Home setIsRModalOpen={setIsRModalOpen}/>} />
+            <Route path='/' element={isLoggedIn ? <Tasks /> : <Home setIsRModalOpen={setIsRModalOpen} />} />
             <Route path='/konto' element={
               isLoggedIn ? (
-                <MyAccount userData={userData} setUserData={setUserData}/>
+                <MyAccount userData={userData} setUserData={setUserData} />
               ) : (
                 <Navigate replace to="/" />
               )

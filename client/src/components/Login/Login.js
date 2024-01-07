@@ -42,9 +42,7 @@ function LoginForm({ openRegistration, onRequestClose }) {
         console.log('Użytkownik zalogowany pomyślnie!');
         
         setTimeout(() => {
-            // dwa razy sie aktualizuje
           setIsLoggedIn(true);
-          window.location.href = '/';
           onRequestClose();
         }, 500);
       }

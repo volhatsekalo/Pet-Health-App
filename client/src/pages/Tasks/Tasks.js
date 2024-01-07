@@ -29,13 +29,15 @@ function Tasks() {
                 'Content-Type': 'application/json',
               }
             });
+
             const petData = await petResponse.json();
-            console.log(petData);
             const petName = petData.pet.name;
             const petId = petData.pet._id;
             const petAvatarUrl = petData.pet.petAvatarUrl;
+
             return { ...task, petName, petId, petAvatarUrl };
-          } catch (error) {
+          }
+          catch (error) {
             console.error('Błąd przy pobieraniu informacji o zwierzaku:', error);
             return task;
           }
