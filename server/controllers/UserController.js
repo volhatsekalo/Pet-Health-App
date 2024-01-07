@@ -75,7 +75,7 @@ export const getUserInfo = async (req, res) => {
 
 export const changePassword = async (req, res) => {
     try {
-        const { name, email, password, newPassword } = req.body;
+        const { email, password, newPassword } = req.body;
 
         const userExists = await User.findOne({ email });
         if (!userExists) {
@@ -112,13 +112,6 @@ export const changePassword = async (req, res) => {
 export const changeUserInfo = async (req, res) => {
     try {
         const { username, email, userAvatarUrl  } = req.body;
-
-        await User.findOne({ email })
-            .then(emailExists => {
-                if (!emailExists) {
-                    return res.status(404).json({ message: 'Użytkownik o podanym email nie istnieje' });
-                }
-            })
 
         await User.findByIdAndUpdate(req.userId, { username, email, userAvatarUrl }, { new: true })
             .then(updatedUser => {

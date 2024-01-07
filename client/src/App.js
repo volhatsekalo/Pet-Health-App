@@ -10,7 +10,12 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 export const AuthContext = createContext();
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem('isLoggedIn') === 'true' || false
+  );
+
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [isRModalOpen, setIsRModalOpen] = useState(false);
 
@@ -33,10 +38,6 @@ function App() {
           setIsLoggedIn(true);
         }
 
-        // else {
-        //   setIsLoggedIn(false);
-        // }
-
       } catch (err) {
         console.error('Błąd po stronie serwera:', err);
       }
@@ -58,6 +59,14 @@ function App() {
         if (response.ok) {
           const json = await response.json();
           setUserData(json);
+        }
+
+        // const token = document.cookie('accessToken');
+        // if (!token) {
+        //   setIsLoggedIn(false);
+        // }
+        else {
+          localStorage.setItem('isLoggedIn', isLoggedIn);
         }
       }
       catch (err) {
