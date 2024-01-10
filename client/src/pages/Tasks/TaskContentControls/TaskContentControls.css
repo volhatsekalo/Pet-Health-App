@@ -3,12 +3,9 @@
     height: auto;
     width: 35vh;
     padding: 7% 0;
-    /* background-color: rgba(255, 255, 255, 0.85); */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    /* border-radius: 10px; */
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     align-items: center;
 }
 
@@ -16,7 +13,7 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    margin-left: 100px;
+    margin-left: 180px;
 }
 
 .filters__container > p {

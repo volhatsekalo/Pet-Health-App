@@ -1,5 +1,6 @@
 .tasks {
     margin-top: 0.3rem;
+    /* margin-left: 3%; */
     height: 100%;
     width: 100%;
     display: flex;
@@ -14,4 +15,14 @@
     align-items: center;
     gap: 20px;
     width: 60%;
+}
+
+.task_cards__container > b {
+    text-align: center;
+}
+
+
+.task_cards__container > div {
+    width: 100%;
+    margin-left: 10%;
 }

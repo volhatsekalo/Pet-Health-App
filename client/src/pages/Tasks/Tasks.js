@@ -57,17 +57,22 @@ function Tasks() {
       <TaskContentControls tasks={tasks} setFilteredTasks={setFilteredTasks} />
       <div className='task_cards__container'>
         <b>Zaplanowane zadania</b>
-        {filteredTasks.map((taskData) =>
-          <TaskCard
-            classes='task'
-            content={{
-              ...taskData
-            }}
-            setTasks={setTasks}
-            setFilteredTasks={setFilteredTasks}
-            key={taskData._id}
-          />
-        )}
+        {tasks.length == 0 ?
+          <p>Nie masz jeszcze dodanych zadań</p> :
+          (
+            <div>{filteredTasks.map((taskData) =>
+              <TaskCard
+                classes='task'
+                content={{
+                  ...taskData
+                }}
+                setTasks={setTasks}
+                setFilteredTasks={setFilteredTasks}
+                key={taskData._id}
+              />
+            )}</div>
+          )
+        }
       </div>
     </div>
   );

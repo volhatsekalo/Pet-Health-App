@@ -2,7 +2,9 @@
   display: flex;
   position: relative;
   gap: 20px;
-  width: 70%;
+  width: 73%;
+  margin-bottom: 20px;
+  /* width: 400px; */
 }
 
 .card__task .photo {
@@ -12,11 +14,15 @@
 }
 
 .card__task .text_container {
-  width: 240px;
+  width: 250px;
   display: flex;
   gap: 5px;
   justify-content: center;
   flex-direction: column;
+}
+
+.text_container>p {
+  width: 100%;
 }
 
 .counter_container {
@@ -32,7 +38,7 @@
   right: 1.4rem;
 }
 
-.task__date > p {
+.task__date>p {
   text-align: right;
 }
 
