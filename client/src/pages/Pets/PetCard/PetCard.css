@@ -3,15 +3,33 @@
     position: relative;
     gap: 20px;
     width: 60%;
-    height:auto;
+    height: auto;
     max-height: 200px;
 }
 
-.close_logo {
+.close_logo,
+.change_logo,
+.done_logo {
     position: absolute;
+    cursor: pointer;
+}
+
+.close_logo {
     top: 3px;
     left: 3px;
-    cursor: pointer;
+    height: 22px;
+}
+
+.change_logo {
+    top: 7px;
+    left: 25px;
+    height: 14px;
+}
+
+.done_logo {
+    top: 2px;
+    left: 21px;
+    height: 22px;
 }
 
 .card__pet .text_container {
@@ -20,6 +38,10 @@
     gap: 5px;
     justify-content: center;
     flex-direction: column;
+}
+
+.text_container {
+    max-width: 218px;
 }
 
 .card__pet .photo {
@@ -31,4 +53,17 @@
 
 .status__list {
     list-style: none;
+}
+
+.petinfo__input {
+    width: auto;
+    max-width: 30%;
+    padding: 3px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333333;
+}
+
+.pet_weight_diagram > h3 {
+    text-align: center;
 }
