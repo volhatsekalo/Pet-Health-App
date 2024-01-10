@@ -10,8 +10,9 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
 import PetWeightDiagram from '../PetWeightDiagram/PetWeightDiagram';
+import { nanoid } from 'nanoid';
 
-const PetCard = ({ classes, content, setPets }) => {
+const PetCard = ({ classes, content, setPets, tasks }) => {
   const paw = <FontAwesomeIcon icon={faPaw} />
 
   const { _id, name, breed, currentWeight, petAvatarUrl } = content;
@@ -25,7 +26,9 @@ const PetCard = ({ classes, content, setPets }) => {
     currentWeight: '',
   });
 
-  const [petWeights, setPetWeights] = useState();
+  const [petWeights, setPetWeights] = useState([]);
+  const [petTasks, setPetTasks] = useState([]);
+  const [status, setStatus] = useState([]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -119,7 +122,8 @@ const PetCard = ({ classes, content, setPets }) => {
       breed: breed,
       currentWeight: currentWeight,
     });
-  }, [breed, currentWeight]);
+    setPetTasks(tasks);
+  }, [breed, currentWeight, tasks]);
 
   useEffect(() => {
     const fetchWeightData = async () => {
@@ -133,11 +137,67 @@ const PetCard = ({ classes, content, setPets }) => {
 
       if (response.ok) {
         const json = await response.json();
-        setPetWeights(json.map(xd => { return { date: new Date(xd.date), weight: xd.weight } }));
+        setPetWeights(() => {
+          return json.map(xd => {
+            return { date: new Date(xd.date), weight: xd.weight }
+          });
+        })
       }
     }
     fetchWeightData();
   }, [breed, currentWeight]);
+
+  useEffect(() => {
+    const generateStatus = async () => {
+      const today = new Date();
+
+      const upcomingTasks = petTasks.filter((task) => {
+        const twoDays = 2 * 24 * 60 * 60 * 1000; // jeśli za mniej niż dwa dni są zadania do zrobienia
+        const taskDate = new Date(task.date).getTime();
+        return taskDate - today <= twoDays;
+      })
+
+      for (let task of upcomingTasks) {
+        if (status.includes('konieczność podania leków') && status.includes('zalecane szczepienia')) {
+          break;
+        }
+        if (task.taskType == 'lek' && !status.includes('konieczność podania leków')) {
+          setStatus((prev) => {
+            let newArray = [...prev];
+            newArray.push('konieczność podania leków');
+            return newArray;
+          })
+        }
+        if (task.taskType == 'szczepienie' && !status.includes('zalecane szczepienia')) {
+          setStatus((prev) => {
+            let newArray = [...prev];
+            newArray.push('zalecane szczepienia');
+            return newArray;
+          })
+        }
+      }
+
+      if (petWeights.length > 1) {
+        const lastWeight = petWeights[petWeights.length - 2].weight;
+        const currWeight = petWeights[petWeights.length - 1].weight;
+        const weightDiff = Math.abs(lastWeight - currWeight);
+        if (weightDiff >= lastWeight * 0.2 && !status.includes('gwałtowna zmiana wagi')) {
+          // jesli waga spadla lub wzrosla o wiecej niz 20%
+          setStatus((prev) => {
+            let newArray = [...prev];
+            newArray.push('gwałtowna zmiana wagi');
+            return newArray;
+          })
+        }
+      }
+      //todo weterynarz
+
+      // jesli lista pusta to daj tam "zdrowy"
+      // 'zdrowy', 'wymaga uwagi weterynarza', 'konieczność podania leków', 'gwałtowna zmiana wagi', 'zalecane szczepienia'
+    }
+    generateStatus();
+  }, [petWeights]);
+
 
   return (
     <Card classes={classes}>
@@ -168,8 +228,14 @@ const PetCard = ({ classes, content, setPets }) => {
           />) : <span>{data.currentWeight}</span>} kg</p>
         <p><b>Status: </b></p>
         <ul className='status__list'>
-          <li>{paw} wymaga uwagi weterynarza</li>
-          <li>{paw} konieczność podania leków</li>
+          {status.length == 0 ?
+            <li>{paw} zdrowy</li> :
+            (status.map((st) => {
+              return <li key={nanoid(3)}>{paw} {st}</li>
+            }))
+          }
+          {/* <li>{paw} wymaga uwagi weterynarza</li>
+          <li>{paw} konieczność podania leków</li> */}
         </ul>
       </div>
       <div className='pet_weight_diagram'>

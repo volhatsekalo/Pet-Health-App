@@ -67,3 +67,9 @@
 .pet_weight_diagram > h3 {
     text-align: center;
 }
+
+.pet_weight_diagram{
+    position: absolute;
+    top: 3%;
+    right: 9%;
+}
