@@ -1,4 +1,5 @@
 import Pet from '../models/Pet.js';
+import PetWeight from '../models/PetWeight.js';
 
 export const getAllPets = async (req, res) => {
     try {
@@ -61,21 +62,33 @@ export const getPetById = async (req, res) => {
 export const updatePet = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, breed, status, currentWeight, petAvatarUrl } = req.body;
-        await Pet.findByIdAndUpdate(id, { name, breed, status, currentWeight, petAvatarUrl, user: req.userId }, { new: true })
+        const { breed, currentWeight } = req.body;
+        await Pet.findByIdAndUpdate(id, { breed, currentWeight }, { new: true })
             .then(updatedPet => {
                 if (!updatedPet) {
                     return res.status(404).json({ message: 'Nie znaleziono zwierzęcia o podanym ID' });
                 }
-                else {
-                    return res.status(200).json({
-                        message: 'Dane zwierzęcia zostały pomyślnie zaktualizowane',
-                        updatedPet
-                    });
+            })
+
+        const newWeight = new PetWeight({
+            pet: id,
+            date: new Date(),
+            weight: currentWeight
+        });
+
+        await newWeight.save().
+            then(updatedWeight => {
+                if (!updatedWeight) {
+                    return res.status(400).json({ message: 'Nie udalo sie dodac nowej wagi do bazy danych' });
                 }
             })
+
+        return res.status(200).json({
+            message: 'Dane zwierzęcia zostały pomyślnie zaktualizowane'
+        });
     }
     catch (err) {
+        console.log(err);
         return res.status(500).json({ message: 'Nie udało się zaktualizować danych zwierzęcia' });
     }
 }
@@ -99,5 +112,41 @@ export const deletePet = async (req, res) => {
     }
     catch (error) {
         res.status(500).json({ message: 'Nie udało się usunąć zwierzęcia' });
+    }
+}
+
+export const getPetWeightHistory = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const petWeights = await PetWeight.find({ pet: id });
+        return res.status(200).json(petWeights);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'Nie udało się pobrać listy wag',
+        });
+    }
+}
+
+export const addPetWeightHistory = async (req, res) => {
+    try {
+        const { currentWeight, pet } = req.body;
+
+        const petWeight = new PetWeight({
+            pet,
+            weight: currentWeight,
+            date: new Date()
+        });
+
+        await petWeight.save();
+
+        res.status(200).json({ message: 'Udało się dodać wagę zwierzaka', pet });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'Nie udało się dodać wagi zwierzaka',
+        });
     }
 }
