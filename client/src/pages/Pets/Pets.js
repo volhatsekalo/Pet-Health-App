@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import close from "../../assets/close.png";
-import Modal from 'react-modal';
 import PetCard from './PetCard/PetCard';
 import './Pets.css';
 import AddPet from './AddPet/AddPet';
-import CustomModal from '../../components/Modal/CustomModal';
-
-Modal.setAppElement('#root');
+import CustomModal from '../../components/CustomModal/CustomModal';
 
 function Pets() {
 

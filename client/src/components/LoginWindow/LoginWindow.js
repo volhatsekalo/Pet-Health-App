@@ -1,28 +1,32 @@
 import React from 'react';
-import Modal from 'react-modal';
 import LoginForm from '../Login/Login.js';
 import './LoginWindow.css';
-import close from "../../assets/close.png";
-
-
-Modal.setAppElement('#root');
+import CustomModal from '../CustomModal/CustomModal.js';
 
 function LoginWindow({ isOpen, onRequestClose, openRegistration }) {
   return (
-    <Modal
+    <CustomModal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel='Login'
       className='login'
     >
-      <LoginForm onRequestClose={onRequestClose} openRegistration={openRegistration}/>
-      <img
-        className="close_logo"
-        onClick={onRequestClose}
-        src={close}
-        alt=""
-      />
-    </Modal>
+      <LoginForm onRequestClose={onRequestClose} openRegistration={openRegistration} />
+    </CustomModal>
+    // <Modal
+    //   isOpen={isOpen}
+    //   onRequestClose={onRequestClose}
+    //   contentLabel='Login'
+    //   className='login'
+    // >
+    //   <LoginForm onRequestClose={onRequestClose} openRegistration={openRegistration}/>
+    //   <img
+    //     className="close_logo"
+    //     onClick={onRequestClose}
+    //     src={close}
+    //     alt=""
+    //   />
+    // </Modal>
   );
 }
 
