@@ -16,13 +16,12 @@ export const getAllPets = async (req, res) => {
 
 export const createPet = async (req, res) => {
     try {
-        const { name, breed, status, currentWeight, petAvatarUrl } = req.body;
+        const { name, breed, currentWeight, petAvatarUrl } = req.body;
 
         const pet = new Pet({
             name,
             breed,
             petAvatarUrl,
-            status,
             currentWeight,
             user: req.userId,
         });
