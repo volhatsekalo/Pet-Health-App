@@ -15,8 +15,6 @@ function App() {
     localStorage.getItem('isLoggedIn') === 'true' || false
   );
 
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const [isRModalOpen, setIsRModalOpen] = useState(false);
 
   const [userData, setUserData] = useState('');
@@ -35,7 +33,13 @@ function App() {
         if (response.ok) {
           const json = await response.json();
           setUserData(json);
+          localStorage.setItem('isLoggedIn', true);
           setIsLoggedIn(true);
+        }
+
+        else {
+          localStorage.setItem('isLoggedIn', false);
+          setIsLoggedIn(false);
         }
 
       } catch (err) {
@@ -61,10 +65,6 @@ function App() {
           setUserData(json);
         }
 
-        // const token = document.cookie('accessToken');
-        // if (!token) {
-        //   setIsLoggedIn(false);
-        // }
         else {
           localStorage.setItem('isLoggedIn', isLoggedIn);
         }
