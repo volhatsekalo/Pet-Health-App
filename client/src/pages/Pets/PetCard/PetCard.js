@@ -57,7 +57,7 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify(inputData),
+              body: JSON.stringify({...inputData, name}),
             });
 
             if (response.ok) {
@@ -199,6 +199,13 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
   }, [petWeights]);
 
 
+  const changeAvatar = () => {
+    if (edit) {
+
+    }
+  }
+
+
   return (
     <Card classes={classes}>
       <img className="close_logo" src={close} alt="close" onClick={deletePet} />
@@ -207,7 +214,7 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
           <img className="done_logo" src={done} alt="change" onClick={changeDone} /> :
           <img className="change_logo" src={change} alt="change" onClick={changeInfo} />
       }
-      <img src={petAvatarUrl ? `http://localhost:3001${petAvatarUrl}` : image} alt={`${name}-info`} className='photo' />
+      <img src={petAvatarUrl ? `http://localhost:3001${petAvatarUrl}` : image} alt={`${name}-info`} className='photo' onDoubleClick={changeAvatar} />
       <div className='text_container'>
         <h3>{name}</h3>
         <p><b>Rasa: </b>{edit ?
@@ -234,8 +241,6 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
               return <li key={nanoid(3)}>{paw} {st}</li>
             }))
           }
-          {/* <li>{paw} wymaga uwagi weterynarza</li>
-          <li>{paw} konieczność podania leków</li> */}
         </ul>
       </div>
       <div className='pet_weight_diagram'>

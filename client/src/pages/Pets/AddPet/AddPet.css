@@ -1,0 +1,15 @@
+.add_pet__container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+    width: 70%
+}
+
+.add_pet__container>input {
+    width: 100%;
+    padding: 3px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333333;
+}
