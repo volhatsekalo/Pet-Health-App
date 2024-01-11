@@ -15,7 +15,7 @@ import { nanoid } from 'nanoid';
 const PetCard = ({ classes, content, setPets, tasks }) => {
   const paw = <FontAwesomeIcon icon={faPaw} />
 
-  const { _id, name, breed, currentWeight, petAvatarUrl } = content;
+  const { _id, name, breed, currentWeight, petAvatarUrl, lastVetVisit } = content;
   const [edit, setEdit] = useState(false);
   const [inputData, setInputData] = useState({
     breed: '',
@@ -29,6 +29,7 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
   const [petWeights, setPetWeights] = useState([]);
   const [petTasks, setPetTasks] = useState([]);
   const [status, setStatus] = useState([]);
+  const [avatar, setAvatar] = useState(petAvatarUrl);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -57,7 +58,7 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify({...inputData, name}),
+              body: JSON.stringify({ ...inputData, name, petAvatarUrl: "" }),
             });
 
             if (response.ok) {
@@ -190,21 +191,61 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
           })
         }
       }
-      //todo weterynarz
 
-      // jesli lista pusta to daj tam "zdrowy"
-      // 'zdrowy', 'wymaga uwagi weterynarza', 'konieczność podania leków', 'gwałtowna zmiana wagi', 'zalecane szczepienia'
+      const halfOfYear = 0.5 * 365 * 24 * 60 * 60 * 1000;
+
+      if (lastVetVisit && (new Date(today) - new Date(lastVetVisit) > halfOfYear) && !status.includes('zalecana jest wizyta u weterynarza')) {
+        setStatus((prev) => {
+          let newArray = [...prev];
+          newArray.unshift('zalecana jest wizyta u weterynarza');
+          return newArray;
+        })
+      }
     }
     generateStatus();
   }, [petWeights]);
 
 
   const changeAvatar = () => {
-    if (edit) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    let selectedImage;
 
+    input.onchange = async (e) => {
+      selectedImage = e.target.files[0];
+
+      console.log(selectedImage);
+      const formData = new FormData();
+      formData.append('file', selectedImage);
+
+      try {
+        const response = await fetch('http://localhost:3001/upload', {
+          method: 'POST',
+          credentials: 'include',
+          body: formData,
+        });
+
+        if (response.ok) {
+          const { url } = await response.json();
+          const updatedPet = await fetch(`http://localhost:3001/pets/${_id}`, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ breed: data.breed, name, petAvatarUrl: url }),
+          });
+
+          if (updatedPet.ok) {
+            setAvatar(() => { return url });
+          }
+        }
+      } catch (error) {
+        console.error('Wystąpił błąd podczas zmiany zdjecia:', error);
+      }
     }
+    input.click();
   }
-
 
   return (
     <Card classes={classes}>
@@ -214,7 +255,7 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
           <img className="done_logo" src={done} alt="change" onClick={changeDone} /> :
           <img className="change_logo" src={change} alt="change" onClick={changeInfo} />
       }
-      <img src={petAvatarUrl ? `http://localhost:3001${petAvatarUrl}` : image} alt={`${name}-info`} className='photo' onDoubleClick={changeAvatar} />
+      <img src={avatar ? `http://localhost:3001${avatar}` : image} alt={`${name}-info`} className='photo' onDoubleClick={changeAvatar} />
       <div className='text_container'>
         <h3>{name}</h3>
         <p><b>Rasa: </b>{edit ?

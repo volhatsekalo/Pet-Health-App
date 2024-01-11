@@ -18,12 +18,6 @@ const petSchema = new mongoose.Schema(
         currentWeight: {
             type: Number,
         },
-        // status: {
-        //     type: String,
-        //     required: true,
-        //     enum: ['zdrowy', 'wymaga uwagi weterynarza', 'konieczność podania leków', 'gwałtowna zmiana wagi', 'zalecane szczepienia'],
-        //     default: 'zdrowy',
-        // },
         lastVetVisit: {
             type: Date,
         },

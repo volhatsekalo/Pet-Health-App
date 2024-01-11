@@ -43,6 +43,22 @@ export const validatePet = [
             return true;
         })
         .withMessage('petAvatarUrl must be empty string or start with "/uploads/" followed by a filename'),
+    body('lastVetVisit').optional().isISO8601().toDate()
+]
+
+export const validateUpdatePet = [
+    body('name').optional().isAlpha('pl-PL').withMessage('Pet name should contain only letters'),
+    body('breed').optional().isAlpha('pl-PL', { ignore: ' ' }).withMessage('Breed should contain only letters and spaces'),
+    body('currentWeight').optional().isNumeric().withMessage('Weight is a number'),
+    body('petAvatarUrl').optional()
+        .custom((value) => {
+            if (value !== '' && !value.match(/^\/uploads\/.+/i)) {
+                throw new Error('Invalid path for an avatar');
+            }
+            return true;
+        })
+        .withMessage('petAvatarUrl must be empty string or start with "/uploads/" followed by a filename'),
+    body('lastVetVisit').optional().isISO8601().toDate()
 ]
 
 export const validateTask = [

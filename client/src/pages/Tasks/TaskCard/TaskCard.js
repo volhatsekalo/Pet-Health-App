@@ -1,14 +1,17 @@
 import Card from '../../../components/Card/Card';
 import close from "../../../assets/close.png";
 import image from "../../../assets/pettemplate.jpg"
+import done from "../../../assets/done.png"
 import './TaskCard.css';
 
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import { useState } from 'react';
 
 const TaskCard = ({ classes, content, setTasks, setFilteredTasks }) => {
   const { taskType, date, description, pet, petName, petAvatarUrl, _id } = content;
-  console.log(petAvatarUrl);
+  const [taskDone, setTaskDone] = useState(false);
+
   const today = new Date();
   const taskdate = new Date(date);
 
@@ -87,6 +90,48 @@ const TaskCard = ({ classes, content, setTasks, setFilteredTasks }) => {
     }
   }
 
+  const handleTaskDone = async () => {
+    confirmAlert({
+      title: 'Oznacz jako zrobione',
+      message: 'Czy zadanie zostalo zrobione?',
+      buttons: [
+        {
+          label: 'Tak',
+          onClick: async () => {
+            if (taskType == 'wizyta u weterynarza') {
+              await fetch(`http://localhost:3001/pets/${pet}`, {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ lastVetVisit: date }),
+              });
+            }
+            await fetch(`http://localhost:3001/tasks/${_id}`, {
+              method: 'DELETE',
+              credentials: 'include',
+              headers: {
+                'Content-Type': 'application/json',
+              }
+            });
+
+            setTasks((prev) => {
+              let newArray = [...prev];
+              newArray = newArray.filter((task) => task._id != _id);
+              setFilteredTasks(() => { return newArray });
+              return newArray;
+            });
+          }
+        },
+        {
+          label: 'Nie',
+          onClick: () => { },
+        },
+      ],
+    });
+  }
+
   // useEffect(() => {
   //   const xd = async () => {
   //   };
@@ -94,8 +139,9 @@ const TaskCard = ({ classes, content, setTasks, setFilteredTasks }) => {
   // }, [userData, isLoggedIn]);
 
   return (
-    <Card classes={classes}>
+    <Card classes={taskDone ? `${classes} green_bg` : classes}>
       <img className="close_logo" src={close} alt="close" onClick={deleteTask} />
+      <img className="done_logo" src={done} alt="change" onClick={handleTaskDone} />
       <img src={petAvatarUrl ? `http://localhost:3001${petAvatarUrl}` : image} alt={`${petName}-appointment`} className='photo' />
       <div className='text_container'>
         <h3>{petName}</h3>

@@ -48,3 +48,7 @@
   left: 3px;
   cursor: pointer;
 }
+
+.green_bg {
+  background-color: rgba(50, 255, 0, 0.2);
+}
