@@ -16,7 +16,7 @@
     margin-left: 180px;
 }
 
-.filters__container > p {
+.filters__container>p {
     margin-bottom: 7%;
 }
 
@@ -65,16 +65,7 @@
     border-radius: 10px;
 }
 
-/* .card__add_task>p>b::after {
-    cursor: pointer;
-    content: "\25BC";
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-} */
-
-.card__add_task > p {
+.card__add_task>p {
     margin-bottom: 2%;
 }
 
@@ -99,15 +90,22 @@ select {
 
 option {
     text-align: center;
-    width:50%;
+    width: 50%;
 }
 
-select, option, .datepicker, .add_task__description {
+select,
+option,
+.datepicker,
+.add_task__description {
     padding: 4px;
     border: 1px solid #ccc;
     color: #333333;
 }
 
-.select + button {
+.select+button {
     margin-top: 3%;
+}
+
+.react-datepicker-time__header {
+    display: none;
 }

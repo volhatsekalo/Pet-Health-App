@@ -159,20 +159,20 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
       })
 
       for (let task of upcomingTasks) {
-        if (status.includes('konieczność podania leków') && status.includes('zalecane szczepienia')) {
+        if (status.includes('nadchodzi termin podania leków') && status.includes('szczepienie wkrótce')) {
           break;
         }
-        if (task.taskType == 'lek' && !status.includes('konieczność podania leków')) {
+        if (task.taskType == 'lek' && !status.includes('nadchodzi termin podania leków')) {
           setStatus((prev) => {
             let newArray = [...prev];
-            newArray.push('konieczność podania leków');
+            newArray.push('nadchodzi termin podania leków');
             return newArray;
           })
         }
-        if (task.taskType == 'szczepienie' && !status.includes('zalecane szczepienia')) {
+        if (task.taskType == 'szczepienie' && !status.includes('szczepienie wkrótce')) {
           setStatus((prev) => {
             let newArray = [...prev];
-            newArray.push('zalecane szczepienia');
+            newArray.push('szczepienie wkrótce');
             return newArray;
           })
         }
@@ -194,10 +194,10 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
 
       const halfOfYear = 0.5 * 365 * 24 * 60 * 60 * 1000;
 
-      if (lastVetVisit && (new Date(today) - new Date(lastVetVisit) > halfOfYear) && !status.includes('zalecana jest wizyta u weterynarza')) {
+      if (lastVetVisit && (new Date(today) - new Date(lastVetVisit) > halfOfYear) && !status.includes('zalecana wizyta profilaktyczna')) {
         setStatus((prev) => {
           let newArray = [...prev];
-          newArray.unshift('zalecana jest wizyta u weterynarza');
+          newArray.unshift('zalecana wizyta profilaktyczna');
           return newArray;
         })
       }

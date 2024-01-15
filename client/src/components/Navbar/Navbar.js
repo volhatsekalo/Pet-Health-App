@@ -101,7 +101,7 @@ function Navbar({ isRModalOpen, setIsRModalOpen}) {
               </li>
               <li className='navbar__item'>
                 <button className='navbar__link' onClick={() => setIsLModalOpen(true)}>
-                  ZALOGUJ
+                  ZALOGUJ SIĘ
                 </button>
                 <img
                   className="navbar__icon"

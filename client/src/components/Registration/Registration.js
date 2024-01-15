@@ -103,7 +103,7 @@ function RegistrationForm({ openLogin, onRequestClose }) {
         </div>
         <hr></hr>
         <p>
-          Masz już konto? <button className="registration_form__login" onClick={handleClick}>Zaloguj</button>
+          Masz już konto? <button className="registration_form__login" onClick={handleClick}>Zaloguj się</button>
         </p>
         <p className={cll}>
           {loginMessage}
