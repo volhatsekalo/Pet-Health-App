@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const verifyToken = (req, res, next) => {
     const token = req.cookies.accessToken;
@@ -10,7 +12,7 @@ export const verifyToken = (req, res, next) => {
     }
     else {
         try {
-            const decodedToken = jwt.verify(token, 'tajemnica654');
+            const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
             req.userId = decodedToken._id;
             next();
         }

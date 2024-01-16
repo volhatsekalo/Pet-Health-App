@@ -1,6 +1,9 @@
 import jwt from 'jsonwebtoken';
 import bcrypt, { hashSync } from 'bcrypt';
+import dotenv from 'dotenv';
 import User from '../models/User.js';
+
+dotenv.config();
 
 export const register = async (req, res) => {
     try {
@@ -23,7 +26,7 @@ export const register = async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        return res.status(500).json({ message: 'Nie udało się zarejestrować' });
+        return res.status(500).json({ message: 'Wystąpił błąd podczas rejestracji' });
     }
 }
 
@@ -43,7 +46,7 @@ export const login = async (req, res) => {
             return res.status(401).json({ message: "Niepoprawny email lub hasło" });
         }
 
-        const token = jwt.sign({ _id: userExists._id }, "tajemnica654", { expiresIn: '30d' });
+        const token = jwt.sign({ _id: userExists._id }, process.env.JWT_SECRET_KEY, { expiresIn: '30d' });
         return res.status(200).json({ message: 'Zalogowano pomyślnie', token });
     }
     catch (err) {

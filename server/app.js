@@ -2,15 +2,18 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import dotenv from 'dotenv';
 
 import petsRouter from './routes/petRouter.js';
 import usersRouter from './routes/userRouter.js';
 import tasksRouter from './routes/taskRouter.js';
 import uploadRouter from './routes/uploadRouter.js';
 
+dotenv.config();
+
 const app = express();
-const PORT = 3001;
-const mongoUrl = 'mongodb+srv://olga:zwierzaki2012@cluster0.f72advh.mongodb.net/?retryWrites=true&w=majority';
+const PORT = process.env.PORT;
+const mongoUrl = process.env.MONGODB_ATLAS_KEY;
 
 app.use(cookieParser());
 app.use(express.json());
