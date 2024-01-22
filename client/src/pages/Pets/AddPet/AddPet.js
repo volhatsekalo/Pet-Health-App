@@ -6,6 +6,7 @@ function AddPet({ setPets }) {
     const [breed, setBreed] = useState('');
     const [weight, setWeight] = useState('');
     const [status, setStatus] = useState('');
+    const [messageState, setMessageState] = useState('green');
 
     const handleAddPet = async () => {
         try {
@@ -34,6 +35,7 @@ function AddPet({ setPets }) {
 
                 if (!response.ok) {
                     setStatus(data2.message);
+                    setMessageState('red');
                 }
                 else {
                     setPets((prev) => {
@@ -44,9 +46,15 @@ function AddPet({ setPets }) {
                     setName('');
                     setBreed('');
                     setWeight('');
+                    setMessageState('green');
+                    setStatus(data.message);
                 }
             }
-            setStatus(data.message);
+            if (!response.ok) {
+                setMessageState('red');
+                setStatus("Nie udało się dodać zwierzaka");
+            }
+            
         }
         catch (err) {
             setStatus(err);
@@ -58,9 +66,9 @@ function AddPet({ setPets }) {
             <b>Dodaj Zwierzę</b>
             <input type="text" placeholder="Imię" value={name} onChange={(e) => setName(e.target.value)} />
             <input type="text" placeholder="Rasa" value={breed} onChange={(e) => setBreed(e.target.value)} />
-            <input type="text" placeholder="Waga" value={weight} onChange={(e) => setWeight(e.target.value)} />
+            <input type="text" placeholder="Waga w kg" value={weight} onChange={(e) => setWeight(e.target.value)} />
             <button className='btn main' onClick={handleAddPet}>Dodaj</button>
-            <div>{status}</div>
+            <div className={messageState}>{status}</div>
         </div>
     )
 }
