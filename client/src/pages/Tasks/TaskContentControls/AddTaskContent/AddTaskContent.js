@@ -11,6 +11,9 @@ setDefaultLocale('pl');
 
 function AddTaskContent({petsList}) {
 
+    const [status, setStatus] = useState('');
+    const [messageState, setMessageState] = useState('green');
+
     const today = new Date();
 
     const [types, setType] = useState([
@@ -49,25 +52,28 @@ function AddTaskContent({petsList}) {
         try {
             const petChoice = selectedOptions.petChoice ? selectedOptions.petChoice : petsList[0].name;
             const petId = petsList.find((pet) => pet.name === petChoice).id;
-            const taskData = {date: selectedDate, description, taskType: selectedOptions.taskChoice, pet: petId}
+            if (!selectedDate) {
+                setMessageState("red");
+                setStatus("Wybierz datę");
+            }
+            else {
+                const taskData = { date: selectedDate, description, taskType: selectedOptions.taskChoice, pet: petId }
 
-            const response = await fetch('http://localhost:3001/tasks', {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(taskData),
-            });
+                const response = await fetch('http://localhost:3001/tasks', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(taskData),
+                });
 
-            const result = await response.json();
-
-            window.location.reload();
-
-            //render page again
-
+                window.location.reload();
+            }
         }
         catch (err) {
+            setMessageState("red");
+            setStatus("Dodaj najpierw zwierzę");
             console.error('Błąd po stronie serwera:', err);
         }
     }
@@ -99,6 +105,7 @@ function AddTaskContent({petsList}) {
             />
             <p><b>Dodaj opis</b></p>
             <input className='add_task__description' required value={description} onChange={handleInputChange}/>
+            <div className={messageState}>{status}</div>
             <button className='btn main small' onClick={addTask}>DODAJ</button>
         </Card>
     )
