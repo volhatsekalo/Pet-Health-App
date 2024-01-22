@@ -2,7 +2,6 @@ import React from 'react';
 import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../App.js';
 import avatarTemplate from "../../assets/avatar2.png";
-import pencil from "../../assets/pencil.png";
 
 import './MyAccount.css';
 
@@ -14,7 +13,6 @@ const MyAccount = ({ userData, setUserData }) => {
   const [messageState, setMessageState] = useState('green');
   const [image, setImage] = useState(userAvatarUrl);
   const [edit, setEdit] = useState(false);
-  console.log(username);
   const [data, setData] = useState({
     name: username,
     email: email,
@@ -22,6 +20,63 @@ const MyAccount = ({ userData, setUserData }) => {
 
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+
+  const changeAvatar2 = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    let selectedImage;
+
+    input.onchange = async (e) => {
+      selectedImage = e.target.files[0];
+      const formData = new FormData();
+      formData.append('file', selectedImage);
+
+      try {
+        const response = await fetch('http://localhost:3001/upload', {
+          method: 'POST',
+          credentials: 'include',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          setMessageState('red');
+          setMessage("Zmiana zdjęcia nie powiodła się");
+          return;
+        }
+
+        const { url } = await response.json();
+
+        const updatedUser = await fetch('http://localhost:3001/users/changeinfo', {
+          method: 'PUT',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, email, userAvatarUrl: url }),
+        });
+
+        if (updatedUser.ok) {
+          setImage(() => { return url });
+          setUserData((prev) => {
+            const newData = { ...prev };
+            newData.userAvatarUrl = url;
+            return newData;
+          })
+          setMessageState('green');
+          setMessage("Zdjęcie profilowe zaktualizowane!");
+        }
+        else {
+          setMessageState('red');
+          setMessage("Zmiana zdjęcia nie powiodła się");
+        }
+      } catch (error) {
+        console.error('Wystąpił błąd podczas zmiany zdjecia:', error);
+        setMessageState('red');
+        setMessage("Wystąpił błąd podczas zmiany zdjecia");
+      }
+    }
+    input.click();
+  }
 
   const changeAvatar = async (e) => {
     const selectedImage = e.target.files[0];
@@ -56,9 +111,7 @@ const MyAccount = ({ userData, setUserData }) => {
         setImage(() => { return url });
         setUserData((prev) => {
           const newData = { ...prev };
-          console.log(newData)
           newData.userAvatarUrl = url;
-          console.log(newData);
           return newData;
         })
       }
@@ -134,13 +187,14 @@ const MyAccount = ({ userData, setUserData }) => {
     }
     catch (err) {
       console.error('Błąd po stronie serwera:', err);
+      setMessageState('red');
+      setMessage('Błąd po stronie serwera');
     }
   }
 
   useEffect(() => {
-    setData(() => {return {name: userData.username, email: userData.email}});
-    setImage(() => {return userData.userAvatarUrl});
-    console.log(userAvatarUrl);
+    setData(() => { return { name: userData.username, email: userData.email } });
+    setImage(() => { return userData.userAvatarUrl });
   }, [userData]);
 
   return (
@@ -152,14 +206,8 @@ const MyAccount = ({ userData, setUserData }) => {
             <img
               src={userAvatarUrl ? `http://localhost:3001${image}` : avatarTemplate}
               alt=""
+              onDoubleClick={changeAvatar2}
             />
-            <label htmlFor="file-upload" className="myaccount__avatar__change">
-              <img
-                src={pencil}
-                alt=""
-              />
-            </label>
-            <input id="file-upload" type="file" onChange={changeAvatar} />
           </div>
           <div className='myaccount__info'>
             <div>

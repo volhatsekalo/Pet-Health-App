@@ -5,7 +5,6 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  /* padding-top: 100px; */
 }
 
 .myaccount {
@@ -35,12 +34,10 @@
 }
 
 .myaccount__avatar>img {
-  flex: 1;
   border-radius: 70%;
   width: 130px;
-  height: 130px;
+  height: 136px;
   object-fit: cover;
-  /* border: 2px solid #333; */
 }
 
 .myaccount>h2 {
@@ -86,7 +83,6 @@
 .myaccount__logout {
   position: absolute;
   bottom: 1%;
-  /* left: 2%; */
   left: 50%;
   transform: translateX(-50%); 
   color: red;
@@ -139,7 +135,6 @@
 
 .myaccount__passwordchange__inputs {
   display: flex;
-  /* justify-content: space-evenly; */ 
   flex-direction: column;
 }
 
@@ -148,14 +143,12 @@
   .myaccount {
     max-width: 90vw;
     max-height: 100vh;
-    /* height: auto; */
   }
 
   .myaccount__input {
     min-width: 10px;
     max-width: 130px;
     width: auto;
-    /* font-size: 1rem; */
   }
 
   .myaccount__inputvalue {
