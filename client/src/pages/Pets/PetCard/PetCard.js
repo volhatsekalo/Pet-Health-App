@@ -58,7 +58,7 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify({ ...inputData, name, petAvatarUrl: "" }),
+              body: JSON.stringify({ ...inputData, name }),
             });
 
             if (response.ok) {
@@ -238,7 +238,7 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ breed: data.breed, name, petAvatarUrl: url }),
+            body: JSON.stringify({ petAvatarUrl: url }),
           });
 
           if (updatedPet.ok) {

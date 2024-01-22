@@ -62,37 +62,43 @@ export const updatePet = async (req, res) => {
     try {
         const { id } = req.params;
         const { breed, currentWeight, lastVetVisit, petAvatarUrl } = req.body;
+        const updateFields = {};
+
+        if (breed && currentWeight) {
+            updateFields.breed = breed;
+            updateFields.currentWeight = currentWeight;
+        }
+
         if (lastVetVisit) {
-            await Pet.findByIdAndUpdate(id, { lastVetVisit }, { new: true })
-                .then(updatedPet => {
-                    if (!updatedPet) {
-                        return res.status(404).json({ message: 'Nie znaleziono zwierzęcia o podanym ID' });
+            updateFields.lastVetVisit = lastVetVisit;
+        }
+
+        if (petAvatarUrl) {
+            updateFields.petAvatarUrl = petAvatarUrl;
+        }
+
+        await Pet.findByIdAndUpdate(id, updateFields, { new: true })
+            .then(updatedPet => {
+                if (!updatedPet) {
+                    return res.status(404).json({ message: 'Nie znaleziono zwierzęcia o podanym ID' });
+                }
+            })
+
+        if (currentWeight) {
+            const newWeight = new PetWeight({
+                pet: id,
+                date: new Date(),
+                weight: currentWeight
+            });
+
+            await newWeight.save().
+                then(updatedWeight => {
+                    if (!updatedWeight) {
+                        return res.status(400).json({ message: 'Nie udalo sie dodac nowej wagi do bazy danych' });
                     }
                 })
         }
-        else {
-            await Pet.findByIdAndUpdate(id, { breed, currentWeight, petAvatarUrl }, { new: true })
-                .then(updatedPet => {
-                    if (!updatedPet) {
-                        return res.status(404).json({ message: 'Nie znaleziono zwierzęcia o podanym ID' });
-                    }
-                })
 
-            if (currentWeight) {
-                const newWeight = new PetWeight({
-                    pet: id,
-                    date: new Date(),
-                    weight: currentWeight
-                });
-
-                await newWeight.save().
-                    then(updatedWeight => {
-                        if (!updatedWeight) {
-                            return res.status(400).json({ message: 'Nie udalo sie dodac nowej wagi do bazy danych' });
-                        }
-                    })
-            }
-        }
         return res.status(200).json({
             message: 'Dane zwierzęcia zostały pomyślnie zaktualizowane'
         });
