@@ -9,16 +9,17 @@ export const register = async (req, res) => {
     try {
         const { username, email, password, userAvatarUrl } = req.body;
 
-        await User.findOne({ email })
-            .then(userExists => {
-                if (userExists) {
-                    return res.status(400).json({ message: 'Użytkownik z tym adresem email już istnieje' });
-                }
-            });
+        const userExists = await User.findOne({ email });
+
+        if (userExists) {
+            return res.status(404).json({
+                message: 'Użytkownik z tym adresem email już istnieje',
+            })
+        }
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-
+        console.log('xddddd');
         let newUser = new User({ username, email, password: hashedPassword, userAvatarUrl });
         await newUser.save();
 
@@ -114,7 +115,7 @@ export const changePassword = async (req, res) => {
 
 export const changeUserInfo = async (req, res) => {
     try {
-        const { username, email, userAvatarUrl  } = req.body;
+        const { username, email, userAvatarUrl } = req.body;
 
         await User.findByIdAndUpdate(req.userId, { username, email, userAvatarUrl }, { new: true })
             .then(updatedUser => {
