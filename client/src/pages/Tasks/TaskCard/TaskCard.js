@@ -9,7 +9,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useState } from 'react';
 
 const TaskCard = ({ classes, content, setTasks, setFilteredTasks }) => {
-  const { taskType, date, description, pet, petName, petAvatarUrl, _id } = content;
+  const { taskType, date, description, pet, petName, petAvatarUrl, petLastVetVisit, _id } = content;
   const [taskDone, setTaskDone] = useState(false);
 
   const today = new Date();
@@ -99,14 +99,16 @@ const TaskCard = ({ classes, content, setTasks, setFilteredTasks }) => {
           label: 'Tak',
           onClick: async () => {
             if (taskType == 'wizyta u weterynarza') {
-              await fetch(`http://localhost:3001/pets/${pet}`, {
-                method: 'PUT',
-                credentials: 'include',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ lastVetVisit: date }),
-              });
+              if (!petLastVetVisit || petLastVetVisit < date) {
+                await fetch(`http://localhost:3001/pets/${pet}`, {
+                  method: 'PUT',
+                  credentials: 'include',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ lastVetVisit: date }),
+                });
+              }
             }
             await fetch(`http://localhost:3001/tasks/${_id}`, {
               method: 'DELETE',
@@ -131,12 +133,6 @@ const TaskCard = ({ classes, content, setTasks, setFilteredTasks }) => {
       ],
     });
   }
-
-  // useEffect(() => {
-  //   const xd = async () => {
-  //   };
-  //   xd();
-  // }, [userData, isLoggedIn]);
 
   return (
     <Card classes={taskDone ? `${classes} green_bg` : classes}>

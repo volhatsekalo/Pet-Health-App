@@ -32,10 +32,11 @@ function Tasks() {
 
             const petData = await petResponse.json();
             const petName = petData.pet.name;
+            const petLastVetVisit = petData.pet.lastVetVisit;
             const petId = petData.pet._id;
             const petAvatarUrl = petData.pet.petAvatarUrl;
 
-            return { ...task, petName, petId, petAvatarUrl };
+            return { ...task, petName, petId, petAvatarUrl, petLastVetVisit };
           }
           catch (error) {
             console.error('Błąd przy pobieraniu informacji o zwierzaku:', error);

@@ -78,53 +78,6 @@ const MyAccount = ({ userData, setUserData }) => {
     input.click();
   }
 
-  const changeAvatar = async (e) => {
-    const selectedImage = e.target.files[0];
-    const formData = new FormData();
-    formData.append('file', selectedImage);
-
-    try {
-      const response = await fetch('http://localhost:3001/upload', {
-        method: 'POST',
-        credentials: 'include',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        setMessageState('red');
-        setMessage("Zmiana zdjęcia nie powiodła się");
-        return;
-      }
-
-      const { url } = await response.json();
-
-      const updatedUser = await fetch('http://localhost:3001/users/changeinfo', {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, email, userAvatarUrl: url }),
-      });
-
-      if (updatedUser.ok) {
-        setImage(() => { return url });
-        setUserData((prev) => {
-          const newData = { ...prev };
-          newData.userAvatarUrl = url;
-          return newData;
-        })
-      }
-      else {
-        setMessageState('red');
-        setMessage("Zmiana zdjęcia nie powiodła się");
-      }
-
-    } catch (error) {
-      console.error('Wystąpił błąd:', error);
-    }
-  };
-
   const handleEdit = () => {
     setEdit(true);
   };

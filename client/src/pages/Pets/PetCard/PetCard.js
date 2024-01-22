@@ -127,25 +127,30 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
   }, [breed, currentWeight, tasks]);
 
   useEffect(() => {
-    const fetchWeightData = async () => {
-      const response = await fetch(`http://localhost:3001/pets/${_id}/weights`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      });
+    try {
+      const fetchWeightData = async () => {
+        const response = await fetch(`http://localhost:3001/pets/${_id}/weights`, {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
 
-      if (response.ok) {
-        const json = await response.json();
-        setPetWeights(() => {
-          return json.map(xd => {
-            return { date: new Date(xd.date), weight: xd.weight }
-          });
-        })
+        if (response.ok) {
+          const json = await response.json();
+          setPetWeights(() => {
+            return json.map(el => {
+              return { date: new Date(el.date), weight: el.weight }
+            });
+          })
+        }
       }
+      fetchWeightData();
     }
-    fetchWeightData();
+    catch (e) {
+      console.log(e);
+    }
   }, [breed, currentWeight]);
 
   useEffect(() => {
@@ -194,7 +199,7 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
 
       const halfOfYear = 0.5 * 365 * 24 * 60 * 60 * 1000;
 
-      if (lastVetVisit && (new Date(today) - new Date(lastVetVisit) > halfOfYear) && !status.includes('zalecana wizyta profilaktyczna')) {
+      if ((!lastVetVisit || (new Date(today) - new Date(lastVetVisit) > halfOfYear)) && !status.includes('zalecana wizyta profilaktyczna')) {
         setStatus((prev) => {
           let newArray = [...prev];
           newArray.unshift('zalecana wizyta profilaktyczna');
