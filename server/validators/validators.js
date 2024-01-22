@@ -4,12 +4,12 @@ import mongoose from 'mongoose';
 export const validateRegistration = [
     body('username').notEmpty().matches(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ0-9\s]+$/, 'i').withMessage('Username should contain only letters and digits'),
     body('email').isEmail().normalizeEmail().withMessage('Email should contain @'),
-    body('password').isLength({ min: 5 }).withMessage('Password should be at least 5 characters long'),
+    body('password').isLength({ min: 8 }).matches(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*]).*$/).withMessage('Password should be at least 8 characters long, including 1 small and 1 big letter, digit and special character'),
 ]
 
 export const validateLogin = [
     body('email').isEmail().normalizeEmail().withMessage('Email should contain @'),
-    body('password').isLength({ min: 5 }).withMessage('Password should be at least 5 characters long'),
+    // body('password').isLength({ min: 8 }).withMessage('Password should be at least 8 characters long, including 1 small and 1 big letter, digit and special character'),
 ]
 
 export const validateUser = [
@@ -27,8 +27,8 @@ export const validateUser = [
 
 export const validatePasswordChange = [
     body('email').isEmail().normalizeEmail().withMessage('Email should contain @'),
-    body('password').isLength({ min: 5 }).withMessage('Password should be at least 5 characters long'),
-    body('newPassword').isLength({ min: 5 }).withMessage('Password should be at least 5 characters long'),
+    // body('password').isLength({ min: 8 }).matches(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*]).*$/).withMessage('Password should be at least 8 characters long, including 1 small and 1 big letter, digit and special character'),
+    body('newPassword').isLength({ min: 8 }).matches(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*]).*$/).withMessage('Password should be at least 8 characters long, including 1 small and 1 big letter, digit and special character'),
 ]
 
 export const validatePet = [

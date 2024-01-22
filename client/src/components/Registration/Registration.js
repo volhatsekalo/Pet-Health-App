@@ -87,8 +87,9 @@ function RegistrationForm({ openLogin, onRequestClose }) {
             type="password"
             name="password"
             id="password"
-            minLength="5"
-            title="Minimalna długość hasła to 5 znaków"
+            minLength="8"
+            pattern="^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*]).*$"
+            title="Hasło ma minimum 8 znaków, w tym jedna cyfra, jedna duża i jedna mała litera oraz jeden znak specjalny"
             value={data.password}
             onChange={handleChange}
             required
