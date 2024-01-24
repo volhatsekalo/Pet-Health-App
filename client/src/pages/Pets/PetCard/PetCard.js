@@ -162,24 +162,20 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
         return taskDate - today <= twoDays;
       })
 
-      for (let task of upcomingTasks) {
-        if (status.includes('nadchodzi termin podania leków') && status.includes('szczepienie wkrótce')) {
-          break;
-        }
-        if (task.taskType == 'lek' && !status.includes('nadchodzi termin podania leków')) {
-          setStatus((prev) => {
-            let newArray = [...prev];
-            newArray.push('nadchodzi termin podania leków');
-            return newArray;
-          })
-        }
-        if (task.taskType == 'szczepienie' && !status.includes('szczepienie wkrótce')) {
-          setStatus((prev) => {
-            let newArray = [...prev];
-            newArray.push('szczepienie wkrótce');
-            return newArray;
-          })
-        }
+      if (upcomingTasks.some(obj => obj.taskType === 'lek')){
+        setStatus((prev) => {
+          let newArray = [...prev];
+          newArray.push('nadchodzi termin podania leków');
+          return newArray;
+        })
+      }
+
+      if (upcomingTasks.some(obj => obj.taskType === 'szczepienie')){
+        setStatus((prev) => {
+          let newArray = [...prev];
+          newArray.push('szczepienie wkrótce');
+          return newArray;
+        })
       }
 
       if (petWeights.length > 1) {
