@@ -3,7 +3,7 @@
   "name": "Pet Health App",
   "icons": [
     {
-      "src": "petlogo2.jpg",
+      "src": "petlogo.jpg",
       "type": "image/png",
       "sizes": "30x30"
     }

@@ -39,7 +39,7 @@
     background-color: white;
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
 }
 
 .card__add_task>p>b {

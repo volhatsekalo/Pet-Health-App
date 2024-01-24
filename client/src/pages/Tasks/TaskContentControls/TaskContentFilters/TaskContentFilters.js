@@ -65,11 +65,11 @@ function TaskContentFilters({ petsList, tasks, setFilteredTasks }) {
     }
 
     const filterTasks = () => { 
-        let selectedTypes = types.filter((type) => type.checked == true);
+        let selectedTypes = types.filter((type) => type.checked === true);
         selectedTypes = selectedTypes.length > 0 ? selectedTypes.map((type) => type.name) : types.map((type) => type.name);
-        let selectedPets = pets.filter((pet) => pet.checked == true);
+        let selectedPets = pets.filter((pet) => pet.checked === true);
         selectedPets = selectedPets.length > 0 ? selectedPets.map((type) => type.name) : pets.map((type) => type.name);
-        const selectedDates = dates.filter((date) => date.checked == true);
+        const selectedDates = dates.filter((date) => date.checked === true);
 
         setFilteredTasks(() => {
             let newArray = [...tasks];

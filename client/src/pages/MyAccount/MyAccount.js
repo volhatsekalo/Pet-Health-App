@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../App.js';
-import avatarTemplate from "../../assets/avatar2.png";
+import avatarTemplate from "../../assets/avatar.png";
 
 import './MyAccount.css';
 
@@ -21,7 +21,7 @@ const MyAccount = ({ userData, setUserData }) => {
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
-  const changeAvatar2 = () => {
+  const changeAvatar = () => {
     const input = document.createElement('input');
     input.type = 'file';
     let selectedImage;
@@ -159,7 +159,7 @@ const MyAccount = ({ userData, setUserData }) => {
             <img
               src={userAvatarUrl ? `http://localhost:3001${image}` : avatarTemplate}
               alt=""
-              onDoubleClick={changeAvatar2}
+              onDoubleClick={changeAvatar}
             />
           </div>
           <div className='myaccount__info'>

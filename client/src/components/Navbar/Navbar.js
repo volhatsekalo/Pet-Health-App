@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import RegistrationWindow from '../RegistrationWindow/RegistrationWindow.js';
 import LoginWindow from '../LoginWindow/LoginWindow.js';
-import logo from "../../assets/petlogo2.png";
+import logo from "../../assets/petlogo.png";
 import home from "../../assets/home.png";
 import login from "../../assets/login.png";
 import register from "../../assets/register.png";

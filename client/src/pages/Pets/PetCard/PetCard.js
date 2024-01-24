@@ -33,7 +33,6 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value);
     setInputData({
       ...data,
       [name]: value,
@@ -219,7 +218,6 @@ const PetCard = ({ classes, content, setPets, tasks }) => {
     input.onchange = async (e) => {
       selectedImage = e.target.files[0];
 
-      console.log(selectedImage);
       const formData = new FormData();
       formData.append('file', selectedImage);
 

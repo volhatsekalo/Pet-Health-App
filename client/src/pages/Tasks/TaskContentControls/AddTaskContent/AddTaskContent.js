@@ -59,7 +59,7 @@ function AddTaskContent({petsList}) {
             else {
                 const taskData = { date: selectedDate, description, taskType: selectedOptions.taskChoice, pet: petId }
 
-                const response = await fetch('http://localhost:3001/tasks', {
+                await fetch('http://localhost:3001/tasks', {
                     method: 'POST',
                     credentials: 'include',
                     headers: {

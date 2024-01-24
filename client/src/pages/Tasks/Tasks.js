@@ -58,7 +58,7 @@ function Tasks() {
       <TaskContentControls tasks={tasks} setFilteredTasks={setFilteredTasks} />
       <div className='task_cards__container'>
         <b>Zaplanowane zadania</b>
-        {tasks.length == 0 ?
+        {tasks.length === 0 ?
           <p>Nie masz jeszcze dodanych zadań</p> :
           (
             <div>{filteredTasks.map((taskData) =>
